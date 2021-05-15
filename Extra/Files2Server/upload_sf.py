@@ -3,8 +3,8 @@ from firebase import firebase
 from firebase_admin import credentials, initialize_app, storage
 
 
-REVIEWS_PATH = '../checkpoint_15-5/short_films.json'
-FILE_PATH = '../checkpoint_15-5/sf_posters/'
+REVIEWS_PATH = '../checkpoint/short_films.json'
+FILE_PATH = '../checkpoint/sf_posters/'
 DATA_TABLE = '/short-film-reviews'
 
 
