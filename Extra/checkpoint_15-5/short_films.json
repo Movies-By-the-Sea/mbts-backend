@@ -8,7 +8,8 @@
     "Description": "A mother (Maria Dizzia) ina frustrated marriage and monotonous daily routine finds her life shaken up when two free-spirited twenty-somethings move in across the street and she discovers that she can see into their apartment.",
     "Genre1": "Romance",
     "Genre2": "Drama",
-    "Duration": 20
+    "Duration": 20,
+    "Instagram":true
   },
   {
     "ID": 2,
@@ -19,7 +20,8 @@
     "Description": "A well meaning math teacher finds herself trumped by a post-fact America as she tries to maintaince her stance.",
     "Genre1": "Lighhearted",
     "Genre2": "Comedy",
-    "Duration": 9
+    "Duration": 9,
+    "Instagram":false
   },
   {
     "ID": 3,
@@ -30,7 +32,8 @@
     "Description": "The encounter of a professional cellist and family man with a stranger on the subway has unexpected and far-reaching consequences on his life.",
     "Genre1": "Dark",
     "Genre2": "Thriller",
-    "Duration": 12
+    "Duration": 12,
+    "Instagram":false
   },
   {
     "ID": 4,
@@ -41,7 +44,8 @@
     "Description": "A struggling actress moves to Hollywood where she discovers a piece of furniture in her apartment is haunted by a malicious ghost.",
     "Genre1": "Dark",
     "Genre2": "Horror",
-    "Duration": 13
+    "Duration": 13,
+    "Instagram":false
   },
   {
     "ID": 5,
@@ -52,7 +56,8 @@
     "Description": "A simple looking house wife who suspects her husband is having an affair, confronts the mistress and reveals her dark secret to her.",
     "Genre1": "Drama",
     "Genre2": "Thriller",
-    "Duration": 17
+    "Duration": 17,
+    "Instagram":true
   },
   {
     "ID": 6,
@@ -63,7 +68,8 @@
     "Description": "After answering an ad on a dating website for Eastern European women, Olla leaves Ukraine and heads to French suburbia to move in with Pierre, who lives with his elderly mother. However, the suburbia cannot temper her desires, and nothing goes as expected.",
     "Genre1": "Lighhearted",
     "Genre2": "Drama",
-    "Duration": 27
+    "Duration": 27,
+    "Instagram":false
   },
   {
     "ID": 7,
@@ -74,7 +80,8 @@
     "Description": "On a street corner a mysterious conversation among three young men at a street stalls. Meanwhile a traffic accident on a motorbike. The night brings together a sketch, a multicolor frame of reality?.",
     "Genre1": "Lighhearted",
     "Genre2": "Art",
-    "Duration": 14
+    "Duration": 14,
+    "Instagram":false
   },
   {
     "ID": 8,
@@ -85,7 +92,8 @@
     "Description": "Strange Beasts\" is an augmented reality game. It allows you to create and grow your own virtual pet. How far can it go?",
     "Genre1": "Dark",
     "Genre2": "Sci-Fi",
-    "Duration": 5
+    "Duration": 5,
+    "Instagram":true
   },
   {
     "ID": 9,
@@ -96,6 +104,7 @@
     "Description": "A pair of senior citizens have a relationship that shocks both their families in this potty-mouthed, but endearing, comedy.",
     "Genre1": "Lighhearted",
     "Genre2": "Romance",
-    "Duration": 16
+    "Duration": 16,
+    "Instagram":false
   }
 ]

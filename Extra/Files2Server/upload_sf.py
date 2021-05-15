@@ -34,6 +34,7 @@ with open(REVIEWS_PATH) as json_file:
             'description': item['Description'],
             'genre1'     : item['Genre1'],
             'genre2'     : item['Genre2'],
+            'instagram'  : item['Instagram'],
             'duration'   : item['Duration'],
             'link'       : item['Link'],
             'poster'     : blob.public_url
