@@ -36,6 +36,8 @@ The *id*'s are primary keys and will be auto-incremented. Posters would be store
 | execution | float |
 | profundity | float |
 | overall | float |
+| genre1 | varchar |
+| genre2 | varchar |
 | poster | img_blob |
 | trailer | varchar |
 

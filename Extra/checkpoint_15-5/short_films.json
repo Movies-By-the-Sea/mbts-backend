@@ -1,0 +1,101 @@
+[
+  {
+    "ID": 1,
+    "Link": "https://youtu.be/k1vCrsZ80M4",
+    "Poster": "the_neighbours_window_sf.png",
+    "Name": "The Neighbour's Window",
+    "Director": "Marshall Curry",
+    "Description": "A mother (Maria Dizzia) ina frustrated marriage and monotonous daily routine finds her life shaken up when two free-spirited twenty-somethings move in across the street and she discovers that she can see into their apartment.",
+    "Genre1": "Romance",
+    "Genre2": "Drama",
+    "Duration": 20
+  },
+  {
+    "ID": 2,
+    "Link": "https://youtu.be/Zh3Yz3PiXZw",
+    "Poster": "alternative_math_sf.png",
+    "Name": "Alternative Math",
+    "Director": "David Maddox",
+    "Description": "A well meaning math teacher finds herself trumped by a post-fact America as she tries to maintaince her stance.",
+    "Genre1": "Lighhearted",
+    "Genre2": "Comedy",
+    "Duration": 9
+  },
+  {
+    "ID": 3,
+    "Link": "https://mubi.com/films/nimic",
+    "Poster": "nimic_sf.png",
+    "Name": "Nimic",
+    "Director": "Yorgos Lanthimos",
+    "Description": "The encounter of a professional cellist and family man with a stranger on the subway has unexpected and far-reaching consequences on his life.",
+    "Genre1": "Dark",
+    "Genre2": "Thriller",
+    "Duration": 12
+  },
+  {
+    "ID": 4,
+    "Link": "https://youtu.be/zHZxmkzdlmQ",
+    "Poster": "the_armoire_sf.png",
+    "Name": "The Armorie",
+    "Director": "Evan Cooper",
+    "Description": "A struggling actress moves to Hollywood where she discovers a piece of furniture in her apartment is haunted by a malicious ghost.",
+    "Genre1": "Dark",
+    "Genre2": "Horror",
+    "Duration": 13
+  },
+  {
+    "ID": 5,
+    "Link": "https://youtu.be/0krwKbsQscw",
+    "Poster": "chutney_sf.png",
+    "Name": "Chutney",
+    "Director": "Jyoti Kapur Das",
+    "Description": "A simple looking house wife who suspects her husband is having an affair, confronts the mistress and reveals her dark secret to her.",
+    "Genre1": "Drama",
+    "Genre2": "Thriller",
+    "Duration": 17
+  },
+  {
+    "ID": 6,
+    "Link": "https://mubi.com/films/olla",
+    "Poster": "olla_sf.png",
+    "Name": "Olla",
+    "Director": "Ariane Labed",
+    "Description": "After answering an ad on a dating website for Eastern European women, Olla leaves Ukraine and heads to French suburbia to move in with Pierre, who lives with his elderly mother. However, the suburbia cannot temper her desires, and nothing goes as expected.",
+    "Genre1": "Lighhearted",
+    "Genre2": "Drama",
+    "Duration": 27
+  },
+  {
+    "ID": 7,
+    "Link": "https://mubi.com/films/stay-awake-be-ready",
+    "Poster": "stay_awake_be_ready_sf.png",
+    "Name": "Stay Awake, Be Ready",
+    "Director": "Pham Thien An",
+    "Description": "On a street corner a mysterious conversation among three young men at a street stalls. Meanwhile a traffic accident on a motorbike. The night brings together a sketch, a multicolor frame of reality?.",
+    "Genre1": "Lighhearted",
+    "Genre2": "Art",
+    "Duration": 14
+  },
+  {
+    "ID": 8,
+    "Link": "https://www.youtube.com/watch?v=HeGWoh0rUvw",
+    "Poster": "strange_beasts_sf.png",
+    "Name": "Strange Beasts",
+    "Director": "Magali Barb�",
+    "Description": "Strange Beasts\" is an augmented reality game. It allows you to create and grow your own virtual pet. How far can it go?",
+    "Genre1": "Dark",
+    "Genre2": "Sci-Fi",
+    "Duration": 5
+  },
+  {
+    "ID": 9,
+    "Link": "https://vimeo.com/159449591",
+    "Poster": "curmudgeons_sf.png",
+    "Name": "Curmudgeons",
+    "Director": "Danny DeVito",
+    "Description": "A pair of senior citizens have a relationship that shocks both their families in this potty-mouthed, but endearing, comedy.",
+    "Genre1": "Lighhearted",
+    "Genre2": "Romance",
+    "Duration": 16
+  }
+]
