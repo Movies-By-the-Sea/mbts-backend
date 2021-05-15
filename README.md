@@ -47,11 +47,13 @@ The *id*'s are primary keys and will be auto-incremented. Posters would be store
 |:----|-----:|
 |  id | int  |
 | name | varchar |
-| review | varchar |
-| runningTime | timestamp |
-| brief | varchar |
+| director | varchar |
+| description | varchar|
+| genre1 | varchar |
+| genre2 | varcchar|
 | instagram | boolean |
-| poster | img_blob |
+| duration | timestamp |
 | link | varchar |
+| poster | img_blob |
 
 </td></tr> </table>
