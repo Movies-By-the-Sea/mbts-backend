@@ -51,7 +51,8 @@ with open(REVIEWS_PATH) as json_file:
                 'instagram'  : item['Instagram'],
                 'duration'   : item['Duration'],
                 'link'       : item['Link'],
-                'poster'     : blob.public_url
+                'poster_name': item['Poster'],
+                'poster_link'     : blob.public_url
             }
         else:
             DB_ENTRY = {
@@ -72,7 +73,8 @@ with open(REVIEWS_PATH) as json_file:
                 'genre1'    : item['Genre1'],
                 'genre2'    : item['Genre2'],
                 'trailer'   : item['Trailer'],
-                'poster'    : blob.public_url
+                'poster_name': item['Poster'],
+                'poster_link'    : blob.public_url
             }
 
         result = firebase.post(DATA_TABLE, DB_ENTRY)
