@@ -8,7 +8,7 @@ load_dotenv('./.env')
 
 
 # CHANGE THIS TO TRUE WHEM UPLOADING TO SHORT-FILMS
-SHORT_FILMS = False
+SHORT_FILMS = True
 
 if(SHORT_FILMS):
     REVIEWS_PATH = '../checkpoint/short_films.json'
@@ -46,8 +46,7 @@ with open(REVIEWS_PATH) as json_file:
                 'name'       : item['Name'],
                 'director'   : item['Director'],
                 'description': item['Description'],
-                'genre1'     : item['Genre1'],
-                'genre2'     : item['Genre2'],
+                'genre'      : [item['Genre1'],item['Genre2']],
                 'instagram'  : item['Instagram'],
                 'duration'   : item['Duration'],
                 'link'       : item['Link'],
@@ -70,8 +69,7 @@ with open(REVIEWS_PATH) as json_file:
                 'execution' : item['Execution'],
                 'profundity': item['Profundity'],
                 'overall'   : item['Overall'],
-                'genre1'    : item['Genre1'],
-                'genre2'    : item['Genre2'],
+                'genre'     : [item['Genre1'],item['Genre2']],
                 'trailer'   : item['Trailer'],
                 'poster_name': item['Poster'],
                 'poster_link'    : blob.public_url
