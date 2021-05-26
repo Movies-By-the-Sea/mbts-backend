@@ -1,4 +1,4 @@
-const express    = require('express');
+const express  = require('express');
 const database = require('../../firebase');
 const router   = express.Router();
 require('dotenv').config();
@@ -17,11 +17,11 @@ router.get('/', (req, res, next) => {
         return res
             .status(200)
             .json({
-                message : 'success',
-                size : Object.keys(snapshot.val()).length,
-                request : {
-                    type : 'GET',
-                    url  : process.env.SERVER + '/short-film-reviews'
+                message  : 'success',
+                size     : Object.keys(snapshot.val()).length,
+                request  : {
+                    type     : 'GET',
+                    url      : process.env.SERVER + '/short-film-reviews'
                 },
                 response : snapshot.val()
         });
@@ -43,8 +43,8 @@ router.get('/instagram', (req, res, next) => {
     .on('value', (snapshot) => {
 
         let reviews = snapshot.val();
-        let movies = [];
-        let count = 0;
+        let movies  = [];
+        let count   = 0;
 
         for(item in reviews) {
             if(reviews[item]['instagram']) {
@@ -56,11 +56,11 @@ router.get('/instagram', (req, res, next) => {
         return res
         .status(200)
         .json({
-            message : 'success',
-            size : count,
-            request : {
-                type : 'GET',
-                url : process.env.SERVER + '/short-film-reviews/instagram'
+            message  : 'success',
+            size     : count,
+            request  : {
+                type     : 'GET',
+                url      : process.env.SERVER + '/short-film-reviews/instagram'
             },
             response : movies
         });

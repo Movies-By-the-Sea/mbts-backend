@@ -24,7 +24,7 @@ app.get('/hello', (req, res) => {
         message : "Hello world!"
     });
 });
-app.use('/movie-reviews', movieReviewRoutes);
+app.use('/movie-reviews',      movieReviewRoutes);
 app.use('/short-film-reviews', shortFilmReviewsRoutes);
 
 
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 // HANDLING SERVER SIDE ERRORS
 app.use((req, res, next) => {
-    const error = new Error('Not found');
+    const error  = new Error('Not found');
     error.status = 400;
     next(error);  
 })
