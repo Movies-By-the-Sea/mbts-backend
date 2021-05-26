@@ -1,16 +1,30 @@
 # Backend API for MBtS Site
 
 _Designed By : Saumya Bhatt_
-
 ## Architecture
 
-A control panel would be responsible for performing CRUD operations onto the database which would be mapped with cloud storage to host images. Authentication provided by Google OAuth feature of Firebase.
+Admin Panle will help manage the reviews on the website. Helper APIs will be used to make the process of uploading a review easier. This panel will also house APIs for Google analytics, instagram, etc.
 
-The backend API would allow only read operations on the database with its endpoints providing solutions for complex queries required for Frontend. Authentication done using inbuilt credentials file.
+Main frontend site will have read only privilages. Backend API will take the data from the Database and perform complex queries required for the frontend display.
 
-Frontend (web + app) would simply perform get requests from API without any need for authentication, thus making the API publically available.
+![bla](https://user-images.githubusercontent.com/46018242/118792144-ff31a600-b8b4-11eb-8182-a7503caeff03.png)
 
-![Architecture](./Extra/Images/architecture.png)
+### Tech Stack
+
+1. **Web-Frontend** : ReactJS, tailwind.css <br>
+2. **Backend** : NodeJS, Express <br>
+3. **Database** : NoSQL (Google Firebase) <br>
+4. **Admin + Analytics** : Streamlit (Python) <br>
+
+### Authentication
+
+**Service** : Google OAuth-2.0
+
+#### Admin Panel Autherization Process
+![bla_ad_au](https://user-images.githubusercontent.com/46018242/118786774-c6430280-b8af-11eb-85ca-8b81ef935bcf.png)
+
+#### Frontend Site Autherization Process
+![bla_gen_au](https://user-images.githubusercontent.com/46018242/118789958-ecb66d00-b8b2-11eb-84e9-88b79bf774f6.png)
 
 ## Database Schema
 
