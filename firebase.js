@@ -15,5 +15,14 @@ if(!firebase.apps.length) {
 }
 const database = firebase.database();
 
+// firebase.auth().signInWithEmailAndPassword(process.env.FIREBASE_AUTH_EMAIL, process.env.FIREBASE_AUTH_PASSWORD)
+//     .then((userCredentials) => {
+//         var user = userCredentials.user;
+//     })
+//     .catch((error) => {
+//         var errorCode = error.code;
+//         var errorMessage = error.message;
+//     })
+
 module.exports = database;
 

@@ -33,6 +33,38 @@ router.get('/', (req, res, next) => {
 
 
 
+//==================================================================================
+// GETTING GENERAL INFO
+
+router.get('/general', (req, res, next) => {
+    database
+    .ref('movie-reviews')
+    .on('value', (snapshot) => {
+
+        let reviews = snapshot.val();
+        let count   = 0;
+
+        for(item in reviews) {
+            if(reviews[item]['instagram']) {
+                count++;
+            }
+        }
+
+        return res
+            .status(200)
+            .json({
+                message     : 'success',
+                allReviews  : Object.keys(snapshot.val()).length,
+                allInstagram: count
+            })
+    })
+})
+
+//==================================================================================
+
+
+
+
 //=================================================================================
 // GET ALL MOVIES UPDATED ON INSTAGRAM
 
