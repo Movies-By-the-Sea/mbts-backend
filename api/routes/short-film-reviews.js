@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/general', (req, res, next) => {
     database
-    .ref('movie-reviews')
+    .ref('short-film-reviews')
     .on('value', (snapshot) => {
 
         let reviews = snapshot.val();
