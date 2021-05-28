@@ -10,7 +10,7 @@ require('dotenv').config();
 //=================================================================================
 // GET ALL REVIEWS
 
-router.get('/', (req, res, next) => {
+router.get('/all', (req, res, next) => {
     database
     .ref('short-film-reviews')
     .on('value', (snapshot) => {
@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
                 size     : Object.keys(snapshot.val()).length,
                 request  : {
                     type     : 'GET',
-                    url      : process.env.SERVER + '/short-film-reviews'
+                    url      : process.env.SERVER + '/short-film-reviews/all'
                 },
                 response : snapshot.val()
         });
@@ -36,7 +36,7 @@ router.get('/', (req, res, next) => {
 //==================================================================================
 // GETTING GENERAL INFO
 
-router.get('/general', (req, res, next) => {
+router.get('/', (req, res, next) => {
     database
     .ref('short-film-reviews')
     .on('value', (snapshot) => {
@@ -54,13 +54,55 @@ router.get('/general', (req, res, next) => {
             .status(200)
             .json({
                 message     : 'success',
-                allReviews  : Object.keys(snapshot.val()).length,
-                allInstagram: count
+                request     : {
+                    type : 'GET',
+                    url  : process.env.SERVER + '/short-film-reviews/'
+                },
+                response : {
+                    allReviews  : Object.keys(snapshot.val()).length,
+                    allInstagram: count
+                }
             })
     })
 })
 
 //==================================================================================
+
+
+
+
+
+
+//=================================================================================
+// GET REVIEW OF FILM SPECIFIED BY ID
+
+router.get('/:short_film_id', (req, res, next) => {
+    database
+    .ref('short-film-reviews')
+    .on('value', (snapshot) => {
+        result = snapshot.val()[req.params.short_film_id];
+        if(result) {
+            return res
+            .status(200)
+            .json({
+                message  : 'success',
+                movie_id : req.params.short_film_id,
+                request  : {
+                    type     : 'GET',
+                    url      : process.env.SERVER + '/short-film-reviews/' + req.params.short_film_id
+                },
+                response : result,
+            });
+        }
+        return res
+            .status(404)
+            .json({
+                message : 'No such short-film with given ID found'
+            })
+    });
+});
+
+//=================================================================================
 
 
 

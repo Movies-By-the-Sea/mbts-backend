@@ -9,7 +9,7 @@ require('dotenv').config();
 //=================================================================================
 // GET ALL REVIEWS
 
-router.get('/', (req, res, next) => {
+router.get('/all', (req, res, next) => {
     database
     .ref('movie-reviews')
     .on('value', (snapshot) => {
@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
                 size     : Object.keys(snapshot.val()).length,
                 request  : {
                     type     : 'GET',
-                    url      : process.env.SERVER + '/movie-reviews'
+                    url      : process.env.SERVER + '/movie-reviews/all'
                 },
                 response : snapshot.val(),
         });
@@ -33,10 +33,45 @@ router.get('/', (req, res, next) => {
 
 
 
+//=================================================================================
+// GET REVIEW OF FILM SPECIFIED BY ID
+
+router.get('/:movie_id', (req, res, next) => {
+    database
+    .ref('movie-reviews')
+    .on('value', (snapshot) => {
+        result = snapshot.val()[req.params.movie_id];
+        if(result) {
+            return res
+            .status(200)
+            .json({
+                message  : 'success',
+                movie_id : req.params.movie_id,
+                request  : {
+                    type     : 'GET',
+                    url      : process.env.SERVER + '/movie-reviews/' + req.params.movie_id
+                },
+                response : result,
+            });
+        }
+        return res
+            .status(404)
+            .json({
+                message : 'No such film with given ID found'
+            })
+    });
+});
+
+//=================================================================================
+
+
+
+
+
 //==================================================================================
 // GETTING GENERAL INFO
 
-router.get('/general', (req, res, next) => {
+router.get('/', (req, res, next) => {
     database
     .ref('movie-reviews')
     .on('value', (snapshot) => {
@@ -54,13 +89,22 @@ router.get('/general', (req, res, next) => {
             .status(200)
             .json({
                 message     : 'success',
-                allReviews  : Object.keys(snapshot.val()).length,
-                allInstagram: count
+                request : {
+                    type : 'GET',
+                    url  : process.env.SERVER + '/movie-reviews/'
+                },
+                response : {
+                    allReviews  : Object.keys(snapshot.val()).length,
+                    allInstagram: count
+                }
             })
     })
 })
 
 //==================================================================================
+
+
+
 
 
 
