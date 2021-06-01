@@ -78,4 +78,36 @@ router.post('/upload',  (req, res, next) => {
 
 
 
+//=======================================================================================
+// UPDATING INSTAGRAM STATUS
+
+router.post('/updateIG', (req, res, next) => {
+    database
+    .ref(req.body.table + '/' + req.body.id)
+    .update({
+        instagram : req.body.instagram
+    });
+    return res
+        .status(200)
+        .json({
+            message : 'Successfully updated IG status',
+            request : {
+                type : 'POST',
+                url : process.env.SERVER + '/updateIG'
+            },
+            response : {
+                uuid : req.body.id,
+                table : req.body.table,
+                ig_value : req.body.instagram
+            }
+        });
+});
+
+//=======================================================================================
+
+
+
+
+
+
 module.exports = router;
