@@ -1,7 +1,7 @@
-const express  = require('express');
+const express         = require('express');
 const { v4 : uuidv4 } = require('uuid')
-const database = require('../../firebase');
-const router   = express.Router();
+const database        = require('../../firebase');
+const router          = express.Router();
 require('dotenv').config();
 
 
@@ -77,7 +77,6 @@ router.post('/upload',  (req, res, next) => {
 
 
 
-
 //=======================================================================================
 // UPDATING INSTAGRAM STATUS
 
@@ -90,21 +89,44 @@ router.post('/updateIG', (req, res, next) => {
     return res
         .status(200)
         .json({
-            message : 'Successfully updated IG status',
-            request : {
-                type : 'POST',
+            message: 'Successfully updated IG status',
+            request: {
+                type: 'POST',
                 url : process.env.SERVER + '/updateIG'
             },
             response : {
-                uuid : req.body.id,
-                table : req.body.table,
-                ig_value : req.body.instagram
+                uuid    : req.body.id,
+                table   : req.body.table,
+                ig_value: req.body.instagram
             }
         });
 });
 
 //=======================================================================================
 
+
+
+
+
+//=======================================================================================
+// DELETING REVIEW
+
+router.delete('/delete', (req, res, next) => {
+    database
+    .ref(req.body.table + '/' + req.body.id)
+    .remove();
+    return res
+        .status(200)
+        .json({
+            message: 'Successfully deleted review',
+            request: {
+                type: 'DELETE',
+                url : process.env.SERVER + '/delete'
+            }
+        });
+})
+
+//=======================================================================================
 
 
 
