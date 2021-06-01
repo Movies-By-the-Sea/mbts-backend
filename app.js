@@ -1,10 +1,10 @@
-const express    = require('express');
-const morgan     = require('morgan');
+const express = require('express');
+const morgan  = require('morgan');
 
 
 const movieReviewRoutes      = require('./api/routes/movie-reviews');
 const shortFilmReviewsRoutes = require('./api/routes/short-film-reviews');
-const operations = require('./api/routes/operations');
+const operations             = require('./api/routes/operations');
 require('dotenv').config();
 
 
@@ -15,8 +15,6 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(bodyParser.json());
 
 
 
@@ -28,7 +26,7 @@ app.get('/hello', (req, res) => {
 });
 app.use('/movie-reviews',      movieReviewRoutes);
 app.use('/short-film-reviews', shortFilmReviewsRoutes);
-app.use('/operations', operations)
+app.use('/operations',         operations)
 
 
 
