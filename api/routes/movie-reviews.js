@@ -12,7 +12,7 @@ require('dotenv').config();
 router.get('/all', (req, res, next) => {
     database
     .ref('movie-reviews')
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
         return res
             .status(200)
             .json({
@@ -39,7 +39,7 @@ router.get('/all', (req, res, next) => {
 router.get('/:movie_id', (req, res, next) => {
     database
     .ref('movie-reviews')
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
         result = snapshot.val()[req.params.movie_id];
         if(result) {
             return res
@@ -74,7 +74,7 @@ router.get('/:movie_id', (req, res, next) => {
 router.get('/', (req, res, next) => {
     database
     .ref('movie-reviews')
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
 
         let reviews = snapshot.val();
         let count   = 0;
@@ -115,7 +115,7 @@ router.get('/', (req, res, next) => {
 router.get('/instagram', (req, res, next) => {
     database
     .ref('movie-reviews')
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
 
         let reviews = snapshot.val();
         let movies  = [];
@@ -154,7 +154,7 @@ router.get('/instagram', (req, res, next) => {
 router.get('/amazon-prime', (req, res, next) => {
     database
     .ref('movie-reviews')
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
 
         let reviews = snapshot.val();
         let movies  = [];
@@ -193,7 +193,7 @@ router.get('/amazon-prime', (req, res, next) => {
 router.get('/netflix', (req, res, next) => {
     database
     .ref('movie-reviews')
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
 
         let reviews = snapshot.val();
         let movies  = [];
