@@ -114,21 +114,35 @@ router.patch('/updateIG', (req, res, next) => {
 router.put('/updateReview', (req, res, next) => {
     database
     .ref(req.body.table + '/' + req.body.id)
-    .update(req.body.update_data);
-    return res
-        .status(200) 
-        .json({
-            message : 'Successfully updated review',
-            request : {
-                type : 'PUT',
-                url : process.env.SERVER + '/operations/updateReview'
-            },
-            response : {
-                id : req.body.id,
-                table : req.body.table,
-                update_data : req.body.update_data
-            }
-        });
+    .set(req.body.update_data, (error) => {
+       if (!error) {
+            return res
+            .status(200) 
+            .json({
+                message: 'Successfully updated review',
+                request: {
+                    type: 'PUT',
+                    url : process.env.SERVER + '/operations/updateReview'
+                },
+                response : {
+                    id         : req.body.id,
+                    table      : req.body.table,
+                    update_data: req.body.update_data
+                }
+            });
+       } else {
+           return res
+            .status(500)
+            .json({
+                message: 'There was an error updating this node',
+                error  : error,
+                request: {
+                    type: 'PUT',
+                    url : process.env.SERVER + '/operations/updateReview'
+                }
+            })
+       }
+    });
 })
 
 //=======================================================================================
