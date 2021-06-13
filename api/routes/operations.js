@@ -113,7 +113,7 @@ router.patch('/updateIG', (req, res, next) => {
 
 router.put('/updateReview', (req, res, next) => {
     database
-    .ref(req.body.table + '/' + req.body.id)
+    .ref(req.body.id + '/' + req.body.table)
     .update(req.body.update_data, (error) => {
        if (!error) {
             return res
