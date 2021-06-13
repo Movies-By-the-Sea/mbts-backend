@@ -61,7 +61,7 @@ router.post('/upload',  (req, res, next) => {
             message: 'Successfully added to Movie-Reviews Database',
             request: {
                 type: 'POST',
-                url : process.env.SERVER + '/upload'
+                url : process.env.SERVER + '/operations/upload'
             },
             response : {
                 uuid         : id,
@@ -80,7 +80,7 @@ router.post('/upload',  (req, res, next) => {
 //=======================================================================================
 // UPDATING INSTAGRAM STATUS
 
-router.post('/updateIG', (req, res, next) => {
+router.patch('/updateIG', (req, res, next) => {
     database
     .ref(req.body.table + '/' + req.body.id)
     .update({
@@ -91,8 +91,8 @@ router.post('/updateIG', (req, res, next) => {
         .json({
             message: 'Successfully updated IG status',
             request: {
-                type: 'POST',
-                url : process.env.SERVER + '/updateIG'
+                type: 'PATCH',
+                url : process.env.SERVER + '/operations/updateIG'
             },
             response : {
                 uuid    : req.body.id,
@@ -104,6 +104,25 @@ router.post('/updateIG', (req, res, next) => {
 
 //=======================================================================================
 
+router.put('/updateReview', (req, res, next) => {
+    database
+    .ref(req.body.table + '/' + req.body.id)
+    .update(req.body.update_data);
+    return res
+        .status(200) 
+        .json({
+            message : 'Successfully updated review',
+            request : {
+                type : 'PUT',
+                url : process.env.SERVER + '/operations/updateReview'
+            },
+            response : {
+                id : req.body.id,
+                table : req.body.table,
+                update_data : req.body.update_data
+            }
+        });
+})
 
 
 
@@ -121,7 +140,7 @@ router.delete('/delete', (req, res, next) => {
             message: 'Successfully deleted review',
             request: {
                 type: 'DELETE',
-                url : process.env.SERVER + '/delete'
+                url : process.env.SERVER + '/operations/delete'
             }
         });
 })
