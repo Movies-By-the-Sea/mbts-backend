@@ -1,8 +1,8 @@
-const express = require('express');
+const express      = require('express');
 const asyncHandler = require('express-async-handler');
-const operations = require("../models/operations");
-const reviews = require("../models/reviews");
-const router = express.Router();
+const operations   = require("../models/operations");
+const reviews      = require("../models/reviews");
+const router       = express.Router();
 
 
 router.get("/",           asyncHandler((req, res) => reviews.getAllReviews(req, res)));

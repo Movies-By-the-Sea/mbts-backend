@@ -1,14 +1,20 @@
+const reviewRoute = require("./routes/reviews");
 const express = require("express");
 const cors = require("cors");
 const app = express();
 
-const reviewRoute = require("./routes/reviews");
 
+// MIDDLEWARES
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+
+
+// PRIMARY ROUTES
 app.get('/',(req, res)=> res.status(200).json({"message":"Hello world"}));
 app.use("/reviews", reviewRoute);
+
 
 
 // HANDLING SERVER SIDE ERRORS
@@ -25,5 +31,7 @@ app.use((error, req, res, next) => {
         }
     });
 });
+
+
 
 module.exports = app;

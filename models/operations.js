@@ -4,6 +4,10 @@ require("dotenv").config();
 
 
 
+
+//=====================================================================================
+//=====================================================================================
+
 async function updateIGStatus(req, res) {
     const ref = db.collection(String(req.body.table)).doc(req.body.id);
     const doc = await ref.get();
@@ -32,9 +36,15 @@ async function updateIGStatus(req, res) {
     }
 }
 
+//=====================================================================================
+//=====================================================================================
 
 
 
+
+
+//=====================================================================================
+//=====================================================================================
 
 async function updateReview(req, res) {
     const ref = db.collection(String(req.body.table)).doc(req.body.id);
@@ -62,36 +72,43 @@ async function updateReview(req, res) {
     }
 }
 
+//=====================================================================================
+//=====================================================================================
 
 
+
+
+
+//=====================================================================================
+//=====================================================================================
 
 async function uploadReview(req, res) {
     const data = {
-        name: req.body.name,
-        director: req.body.director,
-        genre: req.body.genre,
-        instagram: req.body.instagram,
+        name       : req.body.name,
+        director   : req.body.director,
+        genre      : req.body.genre,
+        instagram  : req.body.instagram,
         poster_name: req.body.poster_name,
         poster_link: req.body.poster_link,
-        timestamp: req.body.timestamp
+        timestamp  : req.body.timestamp
     };
     const table = req.body.table;
     if (table == "movie-reviews") {
-        data.review = req.body.review;
-        data.year = req.body.year;
-        data.actor = req.body.actor;
-        data.netflix = req.body.netflix;
-        data.amazon = req.body.amazon;
-        data.acting = req.body.acting;
-        data.story = req.body.story;
-        data.execution = req.body.execution;
+        data.review     = req.body.review;
+        data.year       = req.body.year;
+        data.actor      = req.body.actor;
+        data.netflix    = req.body.netflix;
+        data.amazon     = req.body.amazon;
+        data.acting     = req.body.acting;
+        data.story      = req.body.story;
+        data.execution  = req.body.execution;
         data.profundity = req.body.profundity;
-        data.overall = req.body.overall;
-        data.trailer = req.body.trailer;
+        data.overall    = req.body.overall;
+        data.trailer    = req.body.trailer;
     } else if (table == "short-film-reviews") {
-        data.link = req.body.link;
+        data.link        = req.body.link;
         data.description = req.body.description;
-        data.duration = req.body.duration;
+        data.duration    = req.body.duration;
     }
     const doc = await db.collection(req.body.table).add(data);
     return res
@@ -100,18 +117,25 @@ async function uploadReview(req, res) {
         message: "Post added successfully",
         request: {
             type: "POST",
-            url: process.env.SERVER + "/operations" + "/upload",
+            url : process.env.SERVER + "/operations" + "/upload",
         },
         response: {
-            table: req.body.table,
-            id: doc.id,
+            table        : req.body.table,
+            id           : doc.id,
             data_uploaded: data,
         },
     });    
 }
 
+//=====================================================================================
+//=====================================================================================
 
 
+
+
+
+//=====================================================================================
+//=====================================================================================
 
 async function deleteReview(req, res) {
     await db.collection(req.body.table).doc(req.body.id).delete();
@@ -121,15 +145,21 @@ async function deleteReview(req, res) {
           message: "Document deleted successfully",
           request: {
             type: "DELETE",
-            url: process.env.SERVER + "/operations" + "/delete",
+            url : process.env.SERVER + "/operations" + "/delete",
           },
         });  
 }
 
+//=====================================================================================
+//=====================================================================================
+
+
+
+
 
 module.exports = {
     updateIGStatus: updateIGStatus,
-    updateReview: updateReview,
-    uploadReview: uploadReview,
-    deleteReview: deleteReview
+    updateReview  : updateReview,
+    uploadReview  : uploadReview,
+    deleteReview  : deleteReview
 }
