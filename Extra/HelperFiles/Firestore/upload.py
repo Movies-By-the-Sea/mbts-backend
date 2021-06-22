@@ -1,5 +1,6 @@
-import json
 import os
+import json
+import time
 
 import firebase_admin
 from dotenv import load_dotenv
@@ -11,7 +12,7 @@ firebase_admin.initialize_app(cred, {'storageBucket' : os.getenv('FIRESTORE_STOR
 firestore_db = firestore.client()
 
 
-SHORT_FILMS = True
+SHORT_FILMS = False
 
 if not SHORT_FILMS:
     REVIEW_PATH          = '../../checkpoint/movies.json'
@@ -56,7 +57,8 @@ with open(REVIEW_PATH) as json_file:
                 'foreign'    : bool(item['Foreign']),
                 'genre'      : [item['Genre1'],item['Genre2'],item['Genre3']],
                 'trailer'    : item['Trailer'],
-                'poster_link': blob.public_url
+                'poster_link': blob.public_url,
+                'timestamp'  : time.time()
             }
         else:
             temp = {
@@ -68,10 +70,11 @@ with open(REVIEW_PATH) as json_file:
                 'duration'   : item['Duration'],
                 'link'       : item['Link'],
                 'poster_name': item['Poster'],
-                'poster_link': blob.public_url
+                'poster_link': blob.public_url,
+                'timestamp'  : time.time()
             }
 
         firestore_db.collection(FIRESTORE_COLLECTION).add(temp)
-        print('{}  |  Uploaded to collection: {}  |  {}'.format(str(count), FIRESTORE_COLLECTION, item['Name']))
+        print('{}\tUploaded to collection: {}  |  {}'.format(str(count), FIRESTORE_COLLECTION, item['Name']))
 
 
