@@ -26,7 +26,7 @@ app.get('/hello', (req, res) => {
 });
 app.use('/movie-reviews',      movieReviewRoutes);
 app.use('/short-film-reviews', shortFilmReviewsRoutes);
-app.use('/operations',         operations)
+app.use('/operations',         operations);
 
 
 

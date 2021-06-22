@@ -4,26 +4,26 @@ from dotenv import load_dotenv
 from firebase import firebase
 from firebase_admin import credentials, initialize_app, storage
 
-load_dotenv('./.env')
+load_dotenv('../.env')
 
 
 # CHANGE THIS TO TRUE WHEM UPLOADING TO SHORT-FILMS
 SHORT_FILMS = True
 
 if(SHORT_FILMS):
-    REVIEWS_PATH = '../checkpoint/short_films.json'
-    FILE_PATH = '../checkpoint/sf_posters/'
+    REVIEWS_PATH = '../../checkpoint/short_films.json'
+    FILE_PATH = '../../checkpoint/sf_posters/'
     DATA_TABLE = '/short-film-reviews'
 else:
-    REVIEWS_PATH = '../checkpoint/movies.json'
-    FILE_PATH = '../checkpoint/movies_posters/'
+    REVIEWS_PATH = '../../checkpoint/movies.json'
+    FILE_PATH = '../../checkpoint/movies_posters/'
     DATA_TABLE = '/movie-reviews'
 
 
 
 
 # INITIALIZING FIREBASE
-cred = credentials.Certificate('../storage_adminsdk.json')
+cred = credentials.Certificate('./storage_adminsdk.json')
 initialize_app(cred, {'storageBucket' : os.getenv('STORAGE_BUCKET_URL')})
 firebase = firebase.FirebaseApplication(os.getenv('DATABASE_URL'), None)
 
