@@ -1,32 +1,24 @@
 {
-  "name": "mbts-backend",
-  "version": "1.0.0",
-  "description": "_Designed By : Saumya Bhatt_",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+  "name"       : "new",
+  "version"    : "1.0.0",
+  "description": "",
+  "main"       : "index.js",
+  "scripts"    : {
+    "test" : "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev"  : "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Saumya-Bhatt/mbts-backend.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Saumya-Bhatt/mbts-backend/issues"
-  },
-  "homepage": "https://github.com/Saumya-Bhatt/mbts-backend#readme",
+  "author"      : "",
+  "license"     : "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "firebase": "^8.6.2",
-    "firebase-admin": "^9.9.0",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.7",
-    "request": "^2.88.2",
-    "uuid": "^3.4.0"
+    "cors"                 : "^2.8.5",
+    "dotenv"               : "^10.0.0",
+    "express"              : "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "firebase"             : "^8.6.8",
+    "firebase-admin"       : "^9.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
