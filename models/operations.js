@@ -24,13 +24,15 @@ async function updateIGStatus(req, res) {
       return res
           .status(200)
           .json({
-            message  : "Query successful",
-            id       : req.body.id,
-            table    : req.body.table,
-            instagram: req.body.instagram,
-            request  : {
+            message: "Query successful",
+            request: {
               type: "PATCH",
               url : process.env.SERVER + "/operations" + "/updateIG",
+              body: {
+                table    : req.body.table,
+                id       : req.body.id,
+                instagram: req.body.instagram
+              }
             },
           });
     }
@@ -60,13 +62,15 @@ async function updateReview(req, res) {
       return res
           .status(200)
           .json({
-            message    : "Query successful",
-            id         : req.body.id,
-            table      : req.body.table,
-            update_data: req.body.update_data,
-            request    : {
+            message: "Query successful",
+            request: {
               type: "PATCH",
               url : process.env.SERVER + "/operations" + "/updateIG",
+              body: {
+                id         : req.body.id,
+                table      : req.body.table,
+                update_data: req.body.update_data,
+              }
             },
           });
     }
@@ -118,12 +122,12 @@ async function uploadReview(req, res) {
         request: {
             type: "POST",
             url : process.env.SERVER + "/operations" + "/upload",
-        },
-        response: {
-            table        : req.body.table,
-            id           : doc.id,
-            data_uploaded: data,
-        },
+            body: {
+              table        : req.body.table,
+              id           : doc.id,
+              data_uploaded: data,
+          }
+        }
     });    
 }
 
@@ -146,6 +150,10 @@ async function deleteReview(req, res) {
           request: {
             type: "DELETE",
             url : process.env.SERVER + "/operations" + "/delete",
+            body: {
+              table: req.body.table,
+              id   : req.body.id
+            }
           },
         });  
 }

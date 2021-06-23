@@ -25,7 +25,11 @@ async function getAllReviews(req, res) {
           size   : data.length,
           request: {
               type: "GET",
-              url : process.env.SERVER + "/reviews"
+              url : process.env.SERVER + "/reviews",
+              body: {
+                table  : req.body.table,
+                orderBy: "timestamp"
+              }
           },
           response: data
       })  
@@ -54,11 +58,14 @@ async function getReviewByID(req, res) {
     return res
         .status(200)
         .json({
-          message : "Query successful",
-          movie_id: req.body.id,
-          request : {
+          message: "Query successful",
+          request: {
             type: "GET",
             url : process.env.SERVER + "/reviews" + "/get",
+            body: {
+              table: req.body.table,
+              id   : req.body.id
+            }
           },
           response: doc.data(),
         });
