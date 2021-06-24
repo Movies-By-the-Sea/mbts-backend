@@ -2,6 +2,8 @@
 
 _Last updated : Friday, 25th June, 2021_
 
+__Postman Workspace : [https://www.getpostman.com/collections/accce98be16283d3690c](https://www.getpostman.com/collections/accce98be16283d3690c)__
+
 Currntly cappable of performing CRUD operations on the database and gather basic insights from the Instagram page. Plans to make more routes with complex queris and analytics from both the website (via Google-Analytics) and the IG page in pipeline. Latest version already hosted on Heroku.
 
 For development purposes, the server can be set to `http://localhost` with the port number of choice. 
