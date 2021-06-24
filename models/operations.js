@@ -64,8 +64,8 @@ async function updateReview(req, res) {
           .json({
             message: "Query successful",
             request: {
-              type: "PATCH",
-              url : process.env.SERVER + "/operations" + "/updateIG",
+              type: "PUT",
+              url : process.env.SERVER + "/operations" + "/update",
               body: {
                 id         : req.body.id,
                 table      : req.body.table,

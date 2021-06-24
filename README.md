@@ -1,5 +1,7 @@
 # MBtS Backend API
 
+_Last updated : Friday, 25th June, 2021_
+
 RESTful API build to serve the frontend website as well as the control and analytics panel for Movie By the Sea platform.
 
 ---
