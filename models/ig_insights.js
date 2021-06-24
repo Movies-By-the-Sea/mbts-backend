@@ -1,7 +1,11 @@
-const instagram = require('./Instagram/insights');
+const instagram   = require('./Instagram/insights');
 const accountInfo = require("./Instagram/account_general_info");
-const utils = require('./Instagram/utils');
+const utils       = require('./Instagram/utils');
 require('dotenv').config
+
+
+
+
 
 async function getLatestPost(req, res) {
     let params = utils.getCreds();
@@ -14,12 +18,16 @@ async function getLatestPost(req, res) {
                 message: 'query successful',
                 request: {
                     type: "GET",
-                    url: process.env.SERVER + "/instagram" + "/latest"
+                    url : process.env.SERVER + "/instagram" + "/latest"
                 },
-                response : resp['data']['data'][0]
-            })
-    })
+                response: resp['data']['data'][0]
+            });
+    });
 };
+
+
+
+
 
 async function getBusinessInfo(req, res) {
     let params = utils.getCreds();
@@ -31,16 +39,19 @@ async function getBusinessInfo(req, res) {
                 message: 'query successful',
                 request: {
                     type: "GET",
-                    url: process.env.SERVER + "/instagram" + "/"
+                    url : process.env.SERVER + "/instagram" + "/"
                 },
-                response : resp['data']['business_discovery']
-            })
-    })
-}
+                response: resp['data']['business_discovery']
+            });
+    });
+};
+
+
+
 
 
 async function getAllPosts() {
-    let params = utils.getCreds();
+    let   params = utils.getCreds();
     const result = [];
     await instagram
     .getUserMedia(params)
@@ -48,17 +59,20 @@ async function getAllPosts() {
         posts = resp['data']['data'];
         posts.forEach((item, i) => {
             result.push({
-                id: item['id'],
+                id       : item['id'],
                 timestamp: item['timestamp']
             });
         });
     });
     return result
-}
+};
+
+
+
 
 
 async function getPostInsights(req, res) {
-    let posts = await getAllPosts();
+    let posts    = await getAllPosts();
     let insights = [];
     for(const item of posts) {
         let params = utils.getCreds();
@@ -67,47 +81,51 @@ async function getPostInsights(req, res) {
         .getMediaInsights(params)
         .then((resp) => {
             insights.push({
-                id: item['id'],
+                id       : item['id'],
                 timestamp: item['timestamp'],
-                insights: {
+                insights : {
                     engagement: {
-                        period: resp['data']['data'][0]['period'],
+                        period     : resp['data']['data'][0]['period'],
                         description: resp['data']['data'][0]['description'],
-                        values: resp['data']['data'][0]['values']
+                        values     : resp['data']['data'][0]['values']
                     },
                     impressions: {
-                        period: resp['data']['data'][1]['period'],
+                        period     : resp['data']['data'][1]['period'],
                         description: resp['data']['data'][1]['description'],
-                        values: resp['data']['data'][1]['values']
+                        values     : resp['data']['data'][1]['values']
                     },
                     reach: {
-                        period: resp['data']['data'][2]['period'],
+                        period     : resp['data']['data'][2]['period'],
                         description: resp['data']['data'][0]['description'],
-                        values: resp['data']['data'][2]['values']
+                        values     : resp['data']['data'][2]['values']
                     },
                     saved: {
-                        period: resp['data']['data'][3]['period'],
+                        period     : resp['data']['data'][3]['period'],
                         description: resp['data']['data'][3]['description'],
-                        values: resp['data']['data'][3]['values']
+                        values     : resp['data']['data'][3]['values']
                     }
                 }
-            })
-        })
-    }
+            });
+        });
+    };
     return res
         .status(200)
         .json({
             message: "query successful",
             request: {
                 type: "GET",
-                url: process.env.SERVER + "/instagram" + "/insights"
+                url : process.env.SERVER + "/instagram" + "/insights"
             },
             response : {
-                size: insights.length,
+                size    : insights.length,
                 insights: insights
             }
-        })
-}
+        });
+};
+
+
+
+
 
 async function getDailyUserInsights(req, res) {
     let params = utils.getCreds();
@@ -120,17 +138,20 @@ async function getDailyUserInsights(req, res) {
                 message: "query successful",
                 request: {
                     type: "GET",
-                    url: process.env.SERVER + "/instagram" + "/users"
+                    url : process.env.SERVER + "/instagram" + "/users"
                 },
-                response : resp['data']['data']
+                response: resp['data']['data']
             })
     })
 }
 
 
+
+
+
 module.exports = {
-    getLatestPost: getLatestPost,
-    getBusinessInfo: getBusinessInfo,
-    getPostInsights: getPostInsights,
+    getLatestPost       : getLatestPost,
+    getBusinessInfo     : getBusinessInfo,
+    getPostInsights     : getPostInsights,
     getDailyUserInsights: getDailyUserInsights
 }

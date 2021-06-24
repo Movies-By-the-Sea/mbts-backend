@@ -2,7 +2,7 @@ const util = require("../../../models/Instagram/utils");
 
 async function debugAccessToken(params) {
     endpointParams = {
-        input_token: params.access_token,
+        input_token : params.access_token,
         access_token: params.access_token
     };
     url = params.graph_domain + "/debug_token";
