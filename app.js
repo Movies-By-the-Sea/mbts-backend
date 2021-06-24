@@ -1,4 +1,5 @@
 const reviewRoute = require("./routes/reviews");
+const instaRoute = require("./routes/instagram");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended:true}));
 // PRIMARY ROUTES
 app.get('/',(req, res)=> res.status(200).json({"message":"Hello world"}));
 app.use("/reviews", reviewRoute);
+app.use("/instagram", instaRoute);
 
 
 
