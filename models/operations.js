@@ -103,6 +103,8 @@ async function uploadReview(req, res) {
         data.actor      = req.body.actor;
         data.netflix    = req.body.netflix;
         data.amazon     = req.body.amazon;
+        data.foreign    = req.body.foreign;
+        data.must_watch = req.body.must_watch;
         data.acting     = req.body.acting;
         data.story      = req.body.story;
         data.execution  = req.body.execution;
