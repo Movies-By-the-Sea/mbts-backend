@@ -2,18 +2,18 @@
 
 _Last updated : Friday, 25th June, 2021_
 
-__Postman Workspace : [https://www.getpostman.com/collections/accce98be16283d3690c](https://www.getpostman.com/collections/accce98be16283d3690c)__
-
 Currntly cappable of performing CRUD operations on the database and gather basic insights from the Instagram page. Plans to make more routes with complex queris and analytics from both the website (via Google-Analytics) and the IG page in pipeline. Latest version already hosted on Heroku.
 
-For development purposes, the server can be set to `http://localhost` with the port number of choice. 
+All routes require a custom access token to perform queries, without which will return __Unauthorized__ message.
+
+__Endpoint URL : [mbts-backend.herokuapp.com](https://mbts-backend.herokuapp.com/)__
 
 ---
 
 ## Testing Route
 This is just to check whether the server is running correctly or not
 ```
-GET /
+GET /&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -30,7 +30,7 @@ The tables here refer to either of the two - movie-reviews / short-film-reviews
 ### Get all reviews
 Get all the reviews from the specified table.
 ```
-GET /reviews?table={review-table-specified}
+GET /reviews?table={review-table-specified}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -53,7 +53,7 @@ JSON Response:
 ### Get Review By ID
 Get particular movie review by ID
 ```
-GET /reviews/get?table={review-table-specified}&id={review-id}
+GET /reviews/get?table={review-table-specified}&id={review-id}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -75,7 +75,7 @@ JSON Response:
 ### Get general Information
 Get general info about the reviews in the database such as number of reviews updated on IG, number of foreign reviews, number of different genre reviews, etc.
 ```
-GET /reviews/general?table={review-table-specified}
+GET /reviews/general?table={review-table-specified}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -124,7 +124,7 @@ JSON Response:
 ### Update Instagram status
 Change and update the IG status of a review
 ```
-PATCH /reviews/updateIG?table={review-table-specified}&id={review-id-specified}
+PATCH /reviews/updateIG?table={review-table-specified}&id={review-id-specified}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -146,7 +146,7 @@ JSON Response:
 ### Update a review
 Make updates to any specific field of the review. For images, only the uploaded url linked is passed as that is taken care of in the admin panel
 ```
-PUT /reviews/update?table={review-table-specified}&id={review-id-specified}
+PUT /reviews/update?table={review-table-specified}&id={review-id-specified}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -168,7 +168,7 @@ JSON Response:
 ### Upload a review
 Upload a review to the specified table in the database
 ```
-POST /reviews/upload?table={review-table-specified}
+POST /reviews/upload?table={review-table-specified}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -190,7 +190,7 @@ JSON Response:
 ### Delete a review
 Delete a review from the specified table from the database
 ```
-DELETE /reviews/delete?table={review-table-specified}&id={review-id-specified}
+DELETE /reviews/delete?table={review-table-specified}&id={review-id-specified}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -216,7 +216,7 @@ This route will get results for all the analytics and general info of the IG acc
 ### Get general info
 This will return the basic info of the IG page such as the category, followers and following counts, etc.
 ```
-GET /instagram
+GET /instagram&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -233,7 +233,7 @@ JSON Response:
 ### Get daily users analytics
 This will return the daily user interaction, reach and engament information
 ```
-GET /instagram/users
+GET /instagram/users&uid={access-token-uid}
 ```
 JSON Response:
     
@@ -250,7 +250,7 @@ JSON Response:
 ### Get latest post
 This will get the latest post uploaded on the IG page
 ```
-GET /instagram/latest
+GET /instagram/latest&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -267,7 +267,7 @@ JSON Response:
 ### Get last week insights
 This will get the insights from last week's uploaded posts with metrics such as reach, engagements, impressions and saved
 ```
-GET /instagram/insights
+GET /instagram/insights&uid={access-token-uid}
 ```
 JSON Response:
 
