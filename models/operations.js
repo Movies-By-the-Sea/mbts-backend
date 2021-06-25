@@ -1,4 +1,4 @@
-const db = require("../db");
+const { db, admin } = require("../firebase");
 require("dotenv").config();
 
 

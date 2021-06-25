@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-require("dotenv").config({path:"../.env"});
+require("dotenv").config({path:"./.env"});
 const serviceAccount = {
   "type"                       : process.env.TYPE,
   "project_id"                 : process.env.PROJECT_ID,
@@ -17,12 +17,10 @@ admin.initializeApp({
   credential : admin.credential.cert(serviceAccount)
 });
 
-admin.auth().setCustomUserClaims(process.env.ROOT_UID, {role: "admin"});
+const db = admin.firestore();
+const auth = admin.auth();
 
-admin
-.auth()
-.getUser(process.env.ROOT_UID)
-.then((userRecord) => {
-    console.log(userRecord.toJSON());
-})
-.catch((error) => console.log(error));
+module.exports = {
+  db: db,
+  auth: auth
+}
