@@ -17,8 +17,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "firebase": "^8.6.8",
-    "firebase-admin": "^9.9.0",
-    "instagram-graph-api": "^1.4.0"
+    "firebase-admin": "^9.9.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

@@ -1,14 +1,16 @@
-const reviewRoute = require("./routes/reviews");
-const instaRoute  = require("./routes/instagram");
-const express     = require("express");
-const cors        = require("cors");
-const app         = express();
+const reviewRoute  = require("./routes/reviews");
+const instaRoute   = require("./routes/instagram");
+const authenticate = require("./auth");
+const express      = require("express");
+const cors         = require("cors");
+const app          = express();
 
 
 // MIDDLEWARES
-app.use(cors());
+app.use(cors({origin: true}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(authenticate);
 
 
 
