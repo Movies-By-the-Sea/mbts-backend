@@ -1,7 +1,14 @@
-const { db, admin } = require("../firebase");
+const { db, auth } = require("../firebase");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
+
+
+
+
+//==========================================================================================
+//==========================================================================================
 
 async function getInfo(req, res) {
 
@@ -25,7 +32,7 @@ async function getInfo(req, res) {
                         message: "query successful",
                         request: {
                             type: "GET",
-                            url : process.env.SERVER + "/admin" + "/user",
+                            url : process.env.SERVER + "/user",
                             body: {
                                 email   : req.body.email,
                                 password: req.body.password
@@ -47,6 +54,58 @@ async function getInfo(req, res) {
     });
 };
 
+//==========================================================================================
+//==========================================================================================
+
+
+
+
+
+//==========================================================================================
+//==========================================================================================
+
+async function updateInfo(req, res) {
+    if(req.body.updateData.accessLevel != undefined) {
+        return res
+            .status(400)
+            .json({
+                message: "Unauthorized to change access level"
+            });
+    } else {
+        await auth
+        .updateUser(req.body.uid, req.body.updateData)
+        .then(async () => {
+            if(req.body.updateData.password != undefined) {
+                const hash = await bcrypt.hash(req.body.updateData.password, saltRounds);
+                req.body.updateData.password = hash;
+            }
+            const ref = db.collection("users").doc(req.body.uid);
+            await ref.update(req.body.updateData);
+            return res
+                .status(200)
+                .json({
+                    message: "query successful",
+                    request: {
+                        type: "PUT",
+                        url : process.env.SERVER + "/user" + "/update",
+                        body: {
+                            uid       : req.body.uid,
+                            updateData: req.body.updateData
+                        }
+                    }
+                });
+        });
+    };
+}
+
+//==========================================================================================
+//==========================================================================================
+
+
+
+
+
 module.exports = {
-    getInfo: getInfo
+    getInfo   : getInfo,
+    updateInfo: updateInfo
 }

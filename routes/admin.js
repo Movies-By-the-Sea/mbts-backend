@@ -14,10 +14,14 @@ router.get("/",
 router.post("/create",
     asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
     asyncHandler((req, res)       => admin.createUser(req, res))
-)
+);
 router.delete("/delete",
     asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
     asyncHandler((req, res)       => admin.deleteUser(req, res))
+);
+router.patch("/claims",
+    asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
+    asyncHandler((req, res)       => admin.updateClaim(req, res))
 );
 
 

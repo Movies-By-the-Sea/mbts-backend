@@ -11,6 +11,10 @@ router.get("/",
     asyncHandler((req, res, next) => isAuthenticated(req, res, next)),
     asyncHandler((req, res)       => user.getInfo(req, res))
 );
+router.put("/update",
+    asyncHandler((req, res, next) => isAuthenticated(req, res, next)),
+    asyncHandler((req, res)       => user.updateInfo(req, res))
+)
 
 
 

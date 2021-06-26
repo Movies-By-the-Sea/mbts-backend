@@ -143,8 +143,53 @@ async function getAllUsers(req, res) {
 
 
 
+//=====================================================================
+//=====================================================================
+
+async function updateClaim(req, res) {
+    if((req.body.accessLevel > 5) || (req.body.accessLevel <= 0)) {
+        return res
+            .status(200)
+            .json({
+                message: "Specified access level not possible"
+            });
+    };
+    await auth
+        .setCustomUserClaims(req.body.update_uid, {
+            accessLevel: req.body.accessLevel
+        })
+        .then(async () => {
+            const ref = db.collection("users").doc(req.body.update_uid);
+            await ref.update({
+                accessLevel: req.body.accessLevel
+            });
+            return res
+                .status(200)
+                .json({
+                    message: "query successful",
+                    request: {
+                        type: "PATCH",
+                        url : process.env.SERVER + "/admin" + "/claims",
+                        body: {
+                            uid        : req.body.uid,
+                            update_uid : req.body.update_uid,
+                            accessLevel: req.body.accessLevel
+                        }
+                    }
+                })
+        })
+}
+
+//=====================================================================
+//=====================================================================
+
+
+
+
+
 module.exports = {
     createUser : createUser,
     deleteUser : deleteUser,
-    getAllUsers: getAllUsers
+    getAllUsers: getAllUsers,
+    updateClaim: updateClaim
 }

@@ -496,6 +496,34 @@ JSON Response:
 
 ---
 
+### Set custom claims
+**ACCESS LEVEL : 5**
+
+This route can be used to promote or deomote the access level claim of any user based on their UID
+```
+PATCH /admin/claims
+    ?update_uid={uid-of-user-whose-claims-are-to-be-updated}&accessLevel={updated-access-level}
+    &uid={access-token-uid}
+```
+JSON Response:
+
+    {
+        message: "query successful",
+        request:
+        {
+            type: "PATCH",
+            url : process.env.SERVER + "/admin" + "/claims",
+            body:
+            {
+                uid        : <access-token-uid>,
+                update_uid : <uid-of-user-whose-claims-are-to-be-updated>,
+                accessLevel: <updated-access-level>
+            }
+        }
+    }
+
+---
+
 ## User Route
 This route can only be accessed by users who have been already authenticated. Meaning only those who have a vaild UID token, or have their email password key in out database can access these routes. Access level for this route is applicable to all from 1 to 5.
 
@@ -530,4 +558,33 @@ JSON Response:
                 uid : <account-uid>,
                 info: <account-info>
             }
+    }
+
+---
+
+### Update info
+**ACCESS LEVEL : ALL VERIFIED**
+
+This route can be used to update any of the following fields of the user account. They have to be sent as an array in the request body of the fields you want to update.
+
+_Fields : name, email, password_
+```
+PUT /user/update
+    ?updateData={<array-of-updated-items>}
+    &uid={access-token-uid}
+```
+JSON Response:
+
+    {
+        message: "query successful",
+        request:
+        {
+            type: "PUT",
+            url : process.env.SERVER + "/user" + "/update",
+            body:
+            {
+                uid       : <access-token-uid>,
+                updateData: <array-of-fields-to-be-updated>
+            }
+        }
     }
