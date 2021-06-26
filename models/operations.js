@@ -29,6 +29,7 @@ async function updateIGStatus(req, res) {
               type: "PATCH",
               url : process.env.SERVER + "/operations" + "/updateIG",
               body: {
+                uid      : req.body.uid,
                 table    : req.body.table,
                 id       : req.body.id,
                 instagram: req.body.instagram
@@ -67,6 +68,7 @@ async function updateReview(req, res) {
               type: "PUT",
               url : process.env.SERVER + "/operations" + "/update",
               body: {
+                uid      : req.body.uid,
                 id         : req.body.id,
                 table      : req.body.table,
                 update_data: req.body.update_data,
@@ -125,6 +127,7 @@ async function uploadReview(req, res) {
             type: "POST",
             url : process.env.SERVER + "/operations" + "/upload",
             body: {
+              uid      : req.body.uid,
               table        : req.body.table,
               id           : doc.id,
               data_uploaded: data,
@@ -153,6 +156,7 @@ async function deleteReview(req, res) {
             type: "DELETE",
             url : process.env.SERVER + "/operations" + "/delete",
             body: {
+              uid      : req.body.uid,
               table: req.body.table,
               id   : req.body.id
             }

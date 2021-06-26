@@ -54,6 +54,7 @@ async function getAllReviews(req, res) {
               type: "GET",
               url : process.env.SERVER + "/reviews",
               body: {
+                uid    : req.body.uid,
                 table  : req.body.table,
                 orderBy: "timestamp"
               }
@@ -116,6 +117,7 @@ async function getReviewByID(req, res) {
             type: "GET",
             url : process.env.SERVER + "/reviews" + "/get",
             body: {
+              uid    : req.body.uid,
               table: req.body.table,
               id   : req.body.id
             }
@@ -193,6 +195,7 @@ async function getGeneralInfo(req, res) {
       type: "GET",
       url : process.env.SERVER + "/reviews" + "/general",
       body: {
+        uid    : req.body.uid,
         table: req.body.table
       }
     },

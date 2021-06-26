@@ -18,7 +18,10 @@ async function getLatestPost(req, res) {
                 message: 'query successful',
                 request: {
                     type: "GET",
-                    url : process.env.SERVER + "/instagram" + "/latest"
+                    url : process.env.SERVER + "/instagram" + "/latest",
+                    body: {
+                        uid: req.body.uid
+                    }
                 },
                 response: resp['data']['data'][0]
             });
@@ -39,7 +42,10 @@ async function getBusinessInfo(req, res) {
                 message: 'query successful',
                 request: {
                     type: "GET",
-                    url : process.env.SERVER + "/instagram" + "/"
+                    url : process.env.SERVER + "/instagram" + "/",
+                    body: {
+                        uid: req.body.uid
+                    }
                 },
                 response: resp['data']['business_discovery']
             });
@@ -114,7 +120,10 @@ async function getPostInsights(req, res) {
             message: "query successful",
             request: {
                 type: "GET",
-                url : process.env.SERVER + "/instagram" + "/insights"
+                url : process.env.SERVER + "/instagram" + "/insights",
+                body: {
+                    uid: req.body.uid
+                }
             },
             response : {
                 size    : insights.length,
@@ -138,7 +147,10 @@ async function getDailyUserInsights(req, res) {
                 message: "query successful",
                 request: {
                     type: "GET",
-                    url : process.env.SERVER + "/instagram" + "/users"
+                    url : process.env.SERVER + "/instagram" + "/users",
+                    body: {
+                        uid: req.body.uid
+                    }
                 },
                 response: resp['data']['data']
             })
