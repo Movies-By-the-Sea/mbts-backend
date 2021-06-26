@@ -29,12 +29,13 @@ There are 5 access levels. Each level allows the use of routes which are below i
 | 5            | admin     | Has master access to all routes and can revoke levels                    |
 
 
-__NOTE__ : Get in touch to create your user account and access the API.
+__NOTE__ : Get in touch to create your user account and access the API. If you already have an email account verified here but do not have the UID token, follow the _"/admin/user"_ route for more info
 
 ---
 
 ## Testing Route
 **ACCESS LEVEL : None**
+
 This is just to check whether the server is running correctly or not.
 ```
 GET /
@@ -53,6 +54,7 @@ The tables here refer to either of the two - **movie-reviews** / **short-film-re
 
 ### Get all reviews
 **ACCESS LEVEL : 1**
+
 Get all the reviews from the specified table. Public version of this route is also available which will give less data in response to the one given here passing the UID token. Read more about it [here](README.md).
 ```
 GET /reviews
@@ -80,6 +82,7 @@ JSON Response:
 
 ### Get Review By ID
 **ACCESS LEVEL : 1**
+
 Get particular movie review by ID. Public version of this route is also available which will give less data in response to the one given here passing the UID token. Read more about it [here](README.md).
 ```
 GET /reviews/get
@@ -106,6 +109,7 @@ JSON Response:
 
 ### Get general Information
 **ACCESS LEVEL : 1**
+
 Get general info about the reviews in the database such as number of reviews updated on IG, number of foreign reviews, number of different genre reviews, etc.
 ```
 GET /reviews/general
@@ -159,6 +163,7 @@ JSON Response:
 
 ### Update Instagram status
 **ACCESS LEVEL : 3**
+
 Change and update the IG status of a review.
 ```
 PATCH /reviews/updateIG
@@ -185,6 +190,7 @@ JSON Response:
 
 ### Update a review
 **ACCESS LEVEL : 3**
+
 Make updates to any specific field of the review. For images, only the uploaded url linked is passed as that is taken care of in the admin panel.
 ```
 PUT /reviews/update
@@ -211,6 +217,7 @@ JSON Response:
 
 ### Upload a review
 **ACCESS LEVEL : 2**
+
 Upload a review to the specified table in the database.
 ```
 POST /reviews/upload
@@ -240,6 +247,7 @@ JSON Response:
 
 ### Delete a review
 **ACCESS LEVEL : 3**
+
 Delete a review from the specified table from the database.
 ```
 DELETE /reviews/delete
@@ -270,6 +278,7 @@ This route will get results for all the analytics and general info of the IG acc
 
 ### Get general info
 **ACCESS LEVEL : 4**
+
 This will return the basic info of the IG page such as the category, followers and following counts, etc.
 ```
 GET /instagram
@@ -293,6 +302,7 @@ JSON Response:
 
 ### Get daily users analytics
 **ACCESS LEVEL : 4**
+
 This will return the daily user interaction, reach and engament information.
 ```
 GET /instagram/users
@@ -316,6 +326,7 @@ JSON Response:
 
 ### Get latest post
 **ACCESS LEVEL : 4**
+
 This will get the latest post uploaded on the IG page.
 ```
 GET /instagram/latest
@@ -339,6 +350,7 @@ JSON Response:
 
 ### Get last week insights
 **ACCESS LEVEL : 4**
+
 This will get the insights from last week's uploaded posts with metrics such as reach, engagements, impressions and saved.
 ```
 GET /instagram/insights
@@ -371,6 +383,7 @@ These routes can be used to manage the users and their access and control over t
 
 ### Get all Users
 **ACCESS LEVEL : 5**
+
 This route will get all the users in the database with their complete info and access Levels.
 ```
 GET /admin/
@@ -395,6 +408,7 @@ JSON Response:
 
 ### Create a User
 **ACCESS LEVEL : 5**
+
 This route will help create a user with the specified access level and correspondingly generate their UIDs.
 ```
 POST /admin/createUser
@@ -429,6 +443,7 @@ JSON Response:
 
 ### Delete a User
 **ACCESS LEVEL : 5**
+
 This route will delete the user from the user database and revoke all their access.
 ```
 DELETE /admin/delete
@@ -449,4 +464,35 @@ JSON Response:
                 delete_uid: <uid-of-the-user-to-be-deleted>
             }
         }
+    }
+
+### Get a user by email and password
+**ACCESS LEVEL : anyone having verified email and password with MBtS DB**
+
+This route will give you all the information about your account with MBtS including your access level and UID tokens. Refer to this if you have forgotten or misplaced your token.
+
+__NOTE__ : This route will only give valid response if you already have an account in our database.
+```
+GET /admin/user
+    ?email={your-email-id-with-mbts}&password={corresponding-password}
+```
+JSON Response:
+
+    {
+            message: "query successful",
+            request:
+            {
+                type: "GET",
+                url : process.env.SERVER + "/admin" + "/user",
+                body:
+                {
+                    email   : <specified-email>,
+                    password: <specified-password>
+                }
+            },
+            response:
+            {
+                uid : <account-uid>,
+                info: <account-info>
+            }
     }
