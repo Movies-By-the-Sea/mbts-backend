@@ -127,11 +127,13 @@ async function uploadReview(req, res) {
             type: "POST",
             url : process.env.SERVER + "/operations" + "/upload",
             body: {
-              uid      : req.body.uid,
+              uid          : req.body.uid,
               table        : req.body.table,
-              id           : doc.id,
               data_uploaded: data,
           }
+        },
+        response : {
+          review_id: doc.id
         }
     });    
 }

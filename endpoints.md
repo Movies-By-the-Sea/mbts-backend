@@ -70,6 +70,7 @@ JSON Response:
             url : process.env.SERVER + "/reviews",
             body: 
             {
+                uid    : <uid-of-the-user>,
                 table  : <specified-table>,
                 orderBy: "timestamp"
             }
@@ -95,11 +96,12 @@ JSON Response:
             url : process.env.SERVER + "/reviews" + "/get",
             body: 
             {
-              table: req.body.table,
-              id   : req.body.id
+                uid  : <uid-of-the-user>                
+                table: <specified-table>,
+                id   : <specified-review-id>
             }
         },
-        response: doc.data(),
+        response: <array-of-data>,
     }
 
 ### Get general Information
@@ -119,8 +121,9 @@ JSON Response:
             type: "GET",
             url : process.env.SERVER + "/reviews" + "/general",
             body: 
-            {
-                table: req.body.table
+            {   
+                uid  : <user-uid>
+                table: <specified-table>
             }
         },
         response: 
@@ -172,9 +175,10 @@ JSON Response:
             url : process.env.SERVER + "/operations" + "/updateIG",
             body: 
             {
-            table    : req.body.table,
-            id       : req.body.id,
-            instagram: req.body.instagram
+                uid      : <user-uid>
+                table    : <specified-table>,
+                id       : <specified-review-id>,
+                instagram: <specified-IG-status>
             }
         },
     }
@@ -195,12 +199,13 @@ JSON Response:
         {
               type: "PUT",
               url : process.env.SERVER + "/operations" + "/update",
-              body: 
+              body:
               {
-                id         : req.body.id,
-                table      : req.body.table,
-                update_data: req.body.update_data,
-            }
+                  uid        : <user-uid>
+                  id         : <specified-review-id>,
+                  table      : <specified-table>,
+                  update_data: <updated-data-to-be-sent>,
+              }
         },
     }
 
@@ -222,10 +227,14 @@ JSON Response:
             url : process.env.SERVER + "/operations" + "/upload",
             body: 
             {
-              table        : req.body.table,
-              id           : doc.id,
-              data_uploaded: data,
+                uid          : <user-uid>
+                table        : <specified-table>
+                data_uploaded: <review-data-to-be-uploaded>,
             }
+        },
+        response:
+        {
+            review_id: <review-id-generated>
         }
     }
 
@@ -247,8 +256,9 @@ JSON Response:
             url : process.env.SERVER + "/operations" + "/delete",
             body: 
             {
-              table: req.body.table,
-              id   : req.body.id
+                uid  : <user-uid>
+                table: <specified-table>,
+                id   : <specified-review-id>
             }
         },
     }
@@ -272,7 +282,11 @@ JSON Response:
         request: 
         {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/"
+            url : process.env.SERVER + "/instagram" + "/",
+            body:
+            {
+                uid: <user-uid>
+            }
         },
         response: <business-discovery-data-from-graph-api>
     }
@@ -291,7 +305,11 @@ JSON Response:
         request: 
         {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/users"
+            url : process.env.SERVER + "/instagram" + "/users",
+            body:
+            {
+                uid: <user-uid>
+            }
         },
         response: <graph-api-response-data>
     }
@@ -310,7 +328,11 @@ JSON Response:
         request: 
         {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/latest"
+            url : process.env.SERVER + "/instagram" + "/latest",
+            body:
+            {
+                uid: <user-uid>
+            }
         },
         response: <graph-api-response-data>   
     }
@@ -329,12 +351,16 @@ JSON Response:
         request: 
         {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/insights"
+            url : process.env.SERVER + "/instagram" + "/insights",
+            body:
+            {
+                uid: <user-uid>
+            }
         },
         response : 
         {
-            size    : insights.length,
-            insights: insights
+            size    : <array-size-of-insights>,
+            insights: <array-of-insights>
         }
     }
 
@@ -358,17 +384,21 @@ JSON Response:
         request:
         {
                 type: "POST",
-                url : process.env.SERVER + "/admin" + "/createAPIUser"
+                url : process.env.SERVER + "/admin" + "/createAPIUser",
+                body:
+                {
+                    uid: <user-uid>,
+                    accessLevel: <access-level-specified>,
+                    user       :
+                    {
+                        name    : <created-user-name>,
+                        email   : <created-user-email>,
+                        password: <created-user-password>
+                    }
+                }
         },
         response :
         {
-            uid        : uid,
-            accessLevel: accessLevel,
-            user       : 
-            {
-                    name    : name,
-                    email   : email,
-                    password: password
-            }
+            uid_created: <uid-generated-of-the-created-user>
         }
     }

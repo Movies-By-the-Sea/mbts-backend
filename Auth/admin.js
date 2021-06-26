@@ -20,12 +20,12 @@ async function createUser(req, res) {
                 message: "Cannot have access level above 5"
             });
     };
-    const { uid } = await auth.createUser({
+    const { uid_created } = await auth.createUser({
         name,
         password,
         email
     });
-    await auth.setCustomUserClaims(uid, {
+    await auth.setCustomUserClaims(uid_created, {
         accessLevel: accessLevel
     });
     return res
@@ -36,6 +36,7 @@ async function createUser(req, res) {
                 type: "POST",
                 url : process.env.SERVER + "/admin" + "/create",
                 body: {
+                    uid        : req.body.uid,
                     accessLevel: accessLevel,
                     user       : {
                         name    : name,
@@ -45,7 +46,7 @@ async function createUser(req, res) {
                 }
             },
             response : {
-                uid        : uid
+                uid_created: uid_created
             }
         });
 };
