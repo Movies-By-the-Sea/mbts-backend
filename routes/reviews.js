@@ -9,11 +9,11 @@ const router       = express.Router();
 
 // ONLY AUTHLEVEL 1 USERS CAN ACCESS THESE ROUTES
 router.get("/",
-    asyncHandler((req, res, next) => isAuthorized(req, res, next, 1)),
+    // asyncHandler((req, res, next) => isAuthorized(req, res, next, 1)),
     asyncHandler((req, res) => reviews.getAllReviews(req, res))
 );
 router.get("/get",
-    asyncHandler((req, res, next) => isAuthorized(req, res, next, 1)),
+    // asyncHandler((req, res, next) => isAuthorized(req, res, next, 1)),
     asyncHandler((req, res) => reviews.getReviewByID(req, res))
 );
 router.get("/general",

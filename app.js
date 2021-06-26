@@ -1,7 +1,6 @@
 const reviewRoute  = require("./routes/reviews");
 const instaRoute   = require("./routes/instagram");
 const adminRoute   = require("./routes/admin");
-const authenticate = require("./Auth/authenticate");
 
 const express      = require("express");
 const cors         = require("cors");
@@ -12,7 +11,6 @@ const app          = express();
 app.use(cors({origin: true}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(authenticate);
 
 
 

@@ -13,10 +13,37 @@ async function getAllReviews(req, res) {
   const reviewRef = db.collection(req.body.table);
   const snapshot  = await reviewRef.orderBy("timestamp").get();
   snapshot.forEach((doc) => {
+    if(req.body.uid === undefined) {
+      data.push({
+        "ID" : doc.id,
+        "data" : {
+          name    : doc.data().name,
+          director: doc.data().director,
+          year    : doc.data().year,
+          lead    : doc.data().lead,
+          genre   : doc.data().genre,
+          review  : doc.data().review,
+          poster  : doc.data().poster,
+          ratings : {
+            story     : doc.data().story,
+            acting    : doc.data().acting,
+            execution : doc.data().execution,
+            profundity: doc.data().profundity,
+            overall   : doc.data().overall
+          },
+          foreign     : doc.data().foreign,
+          must_watch  : doc.data().must_watch,
+          amazon_prime: doc.data().prime,
+          netflix     : doc.data().netflix,
+          trailer     : doc.data().trailer
+        }
+      })
+    } else {
       data.push({
           "ID"  : doc.id,
           "data": doc.data()
       });
+    }
   });
   return res
       .status(200)
@@ -55,6 +82,32 @@ async function getReviewByID(req, res) {
           message: "No such review with given ID found",
         });
   } else {
+    const result = [];
+    if(req.body.uid === undefined) {
+      result.push({
+        name    : doc.data().name,
+        director: doc.data().director,
+        year    : doc.data().year,
+        lead    : doc.data().lead,
+        genre   : doc.data().genre,
+        review  : doc.data().review,
+        poster  : doc.data().poster,
+        ratings : {
+          story     : doc.data().story,
+          acting    : doc.data().acting,
+          execution : doc.data().execution,
+          profundity: doc.data().profundity,
+          overall   : doc.data().overall
+        },
+        foreign     : doc.data().foreign,
+        must_watch  : doc.data().must_watch,
+        amazon_prime: doc.data().prime,
+        netflix     : doc.data().netflix,
+        trailer     : doc.data().trailer
+      });
+    } else {
+      result.push(doc.data());
+    }
     return res
         .status(200)
         .json({
@@ -67,7 +120,7 @@ async function getReviewByID(req, res) {
               id   : req.body.id
             }
           },
-          response: doc.data(),
+          response: result,
         });
   }
 }
