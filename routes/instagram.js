@@ -4,6 +4,8 @@ const insights     = require('../models/ig_insights');
 const isAuthorized = require("../Auth/authorize");
 const router       = express.Router();
 
+
+
 // ONLY AUTHLEVEL 4 USERS CAN ACCESS THESE ROUTES
 router.get("/",
     asyncHandler((req, res, next) => isAuthorized(req, res, next, 4)),
@@ -21,5 +23,6 @@ router.get("/insights",
     asyncHandler((req, res, next) => isAuthorized(req, res, next, 4)),
     asyncHandler((req, res)       => insights.getPostInsights(req, res)));
 
+    
 
 module.exports = router;

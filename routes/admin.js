@@ -5,6 +5,8 @@ const admin        = require("../Auth/admin");
 const user         = require("../models/users");
 const router       = express.Router();
 
+
+
 // ONLY AUTHLEVEL 5 USERS CAN CREATE OTHER USERS
 router.get("/",
     asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
@@ -20,7 +22,10 @@ router.delete("/delete",
 );
 
 
+
 // THESE ROUTES ARE ACCESSIBLE BY ANY USER HAVING VALID UID TOKENS
 router.get("/user", asyncHandler((req, res) => user.getInfo(req, res)));
+
+
 
 module.exports = router;
