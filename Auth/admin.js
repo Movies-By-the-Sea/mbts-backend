@@ -1,6 +1,7 @@
 const { db, auth } = require("../firebase");
+const bcrypt = require("bcrypt");
 require("dotenv").config({path:"../.env"});
-
+const saltRounds = process.env.SALT_ROUNDS;
 
 
 
@@ -20,35 +21,47 @@ async function createUser(req, res) {
                 message: "Cannot have access level above 5"
             });
     };
-    const { uid_created } = await auth.createUser({
-        name,
-        password,
-        email
-    });
-    await auth.setCustomUserClaims(uid_created, {
-        accessLevel: accessLevel
-    });
-    return res
-        .status(200)
-        .json({
-            message: "User successfully created",
-            request: {
-                type: "POST",
-                url : process.env.SERVER + "/admin" + "/create",
-                body: {
-                    uid        : req.body.uid,
-                    accessLevel: accessLevel,
-                    user       : {
-                        name    : name,
-                        email   : email,
-                        password: password
-                    }
-                }
-            },
-            response : {
-                uid_created: uid_created
-            }
+    const hash = await bcrypt.hash(password, saltRounds);
+    await auth.createUser({
+        name    : name,
+        email   : email,
+        password: hash
+    })
+    .then(async (userRecord) => {
+        await auth.setCustomUserClaims(userRecord.uid, {
+            accessLevel: accessLevel
         });
+        await db
+        .collection("users")
+        .doc(userRecord.uid)
+        .set({
+            name       : name,
+            email      : email,
+            accessLevel: accessLevel,
+            password   : hash
+        });
+        return res
+        .status(200)
+            .json({
+                message: "User successfully created",
+                request: {
+                    type: "POST",
+                    url : process.env.SERVER + "/admin" + "/create",
+                    body: {
+                        uid        : req.body.uid,
+                        accessLevel: accessLevel,
+                        user       : {
+                            name    : name,
+                            email   : email,
+                            password: password
+                        }
+                    }
+                },
+                response : {
+                    userRecord: userRecord
+                }
+            });
+    })
 };
 
 

@@ -17,6 +17,13 @@ admin.initializeApp({
   credential : admin.credential.cert(serviceAccount)
 });
 
+// admin
+// .auth()
+// .getUser("")
+// .then((userRecord) => {
+//   console.log(userRecord.customClaims['accessLevel']);
+// });
+
 
 // admin
 // .auth()
