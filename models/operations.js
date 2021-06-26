@@ -68,7 +68,7 @@ async function updateReview(req, res) {
               type: "PUT",
               url : process.env.SERVER + "/operations" + "/update",
               body: {
-                uid      : req.body.uid,
+                uid        : req.body.uid,
                 id         : req.body.id,
                 table      : req.body.table,
                 update_data: req.body.update_data,
@@ -158,7 +158,7 @@ async function deleteReview(req, res) {
             type: "DELETE",
             url : process.env.SERVER + "/operations" + "/delete",
             body: {
-              uid      : req.body.uid,
+              uid  : req.body.uid,
               table: req.body.table,
               id   : req.body.id
             }

@@ -1,9 +1,14 @@
 const { db, auth } = require("../firebase");
 const bcrypt = require("bcrypt");
 require("dotenv").config({path:"../.env"});
-const saltRounds = process.env.SALT_ROUNDS;
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function createUser(req, res) {
     const { name, email, password, accessLevel } = req.body;
@@ -64,27 +69,51 @@ async function createUser(req, res) {
     })
 };
 
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function deleteUser(req, res) {
-    auth
-        .deleteUser(req.body.delete_uid)
-        .then(() => {
-            return res
-                .status(200)
-                .json({
-                    message: "successfully deleted user",
-                    request: {
-                        type: "DELETE",
-                        url : process.env.SERVER + "/admin" + "/delete",
-                        body: {
-                            auth_uid  : req.body.uid,
-                            delete_uid: req.body.delete_uid
-                        }
-                    }
-                })
-        })
-}
+    await db
+        .collection("users")
+        .doc(req.body.delete_uid)
+        .delete()
+        .then(async () => {
+            await auth
+                .deleteUser(req.body.delete_uid)
+                .then(() => {
+                    return res
+                        .status(200)
+                        .json({
+                            message: "successfully deleted user",
+                            request: {
+                                type: "DELETE",
+                                url : process.env.SERVER + "/admin" + "/delete",
+                                body: {
+                                    auth_uid  : req.body.uid,
+                                    delete_uid: req.body.delete_uid
+                                }
+                            }
+                        });
+                });
+        });
+};
 
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function getAllUsers(req, res) {
     auth
@@ -106,6 +135,13 @@ async function getAllUsers(req, res) {
                 })
         })
 }
+
+//=====================================================================
+//=====================================================================
+
+
+
+
 
 module.exports = {
     createUser : createUser,
