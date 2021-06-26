@@ -52,3 +52,54 @@ Make sure you have [NodeJS](https://nodejs.org/en/) and [npm](https://www.npmjs.
 $ npm install
 $ npm run dev
 ```
+
+## API Usage
+
+Majority of the routes can only be accessed by passing in a UID token to the request body. However, 2 of the routes have been made public and thus can be accessed without passing any tokens. Although the quantity of response would be less than a request with the UID token, it can be used freely. Their details are as below:
+
+### Geting all reviews
+This will return all the reviews present in the MBtS database along with their meta data such as genre, leads, director, year, etc. There are two tables user cn access - **movie-reviews** and **short-film-reviews**. Pass them accordingly in the request body.
+```
+GET /reviews
+    ?table={review-table-specified}
+```
+JSON response:
+
+    {
+        message: "query successful",
+        size   : <length-of-the-returned-data>,
+        request: 
+        {
+            type: "GET",
+            url : process.env.SERVER + "/reviews",
+            body: 
+            {
+                table  : <specified-table>,
+                orderBy: "timestamp"
+            }
+        },
+        response: <response-data>
+    }
+
+### Getting review by ID
+The review ID can be found while calling the get-all-reviews route. That can be passed here to get the review of a particular movie/short-film by ID
+```
+GET /reviews/get
+    ?table={review-table-specified}&id={review-id}
+```
+JSON Response:
+
+    {
+        message: "Query successful",
+        request: 
+        {
+            type: "GET",
+            url : process.env.SERVER + "/reviews" + "/get",
+            body: 
+            {
+              table: req.body.table,
+              id   : req.body.id
+            }
+        },
+        response: doc.data(),
+    }

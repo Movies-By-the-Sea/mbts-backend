@@ -12,7 +12,9 @@ __Endpoint URL : [mbts-backend.herokuapp.com](https://mbts-backend.herokuapp.com
 
 ## Authorization
 
-There are two authorizations at play here. The **auth ID token** and the **user UID**. Without either of these, the API cannot be accessed.
+Authentication and authorization is done by the **user UID** token. These are generated when a user object is created and can be used to access various routes depending upon the access levels granted. This is specified in the UID token itself. Pass along these tokens in the request body to authroize it.
+
+Two routes have been made public for general purposes and can be accessed without any UID tokens. Read more about them in the [README.md](README.md) file.
 
 ### Access Levels
 
@@ -26,21 +28,16 @@ There are 5 access levels. Each level allows the use of routes which are below i
 | 4            | analytics | Has access to IG analytics routes                                        |
 | 5            | admin     | Has master access to all routes and can revoke levels                    |
 
-When an account is created, a UID corresponding to it are generated. When using any route, pass in the UID as a request body to authorize your request.
 
 __NOTE__ : Get in touch to create your user account and access the API.
-
-### Auth ID Tokens
-
-These tokens are used to validate whether the user can use the API or not. This would soon be depriciated once the accounts are connected to the database.
 
 ---
 
 ## Testing Route
-This is just to check whether the server is running correctly or not. **ACCESS LEVEL : None**
+**ACCESS LEVEL : None**
+This is just to check whether the server is running correctly or not.
 ```
 GET /
-    &auth_id={auth-id-token}&uid={access-token-uid}
 ```
 JSON Response:
 
@@ -52,14 +49,15 @@ JSON Response:
 
 ## Reviews Routes
 This route will point to all operations on the database
-The tables here refer to either of the two - movie-reviews / short-film-reviews
+The tables here refer to either of the two - **movie-reviews** / **short-film-reviews**
 
 ### Get all reviews
-Get all the reviews from the specified table. **ACCESS LEVEL : 1**
+**ACCESS LEVEL : 1**
+Get all the reviews from the specified table. Public version of this route is also available which will give less data in response to the one given here passing the UID token. Read more about it [here](README.md).
 ```
 GET /reviews
     ?table={review-table-specified}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -80,11 +78,12 @@ JSON Response:
     }
 
 ### Get Review By ID
-Get particular movie review by ID. **ACCESS LEVEL : 1**
+**ACCESS LEVEL : 1**
+Get particular movie review by ID. Public version of this route is also available which will give less data in response to the one given here passing the UID token. Read more about it [here](README.md).
 ```
 GET /reviews/get
     ?table={review-table-specified}&id={review-id}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -104,11 +103,12 @@ JSON Response:
     }
 
 ### Get general Information
-Get general info about the reviews in the database such as number of reviews updated on IG, number of foreign reviews, number of different genre reviews, etc. **ACCESS LEVEL : 1**
+**ACCESS LEVEL : 1**
+Get general info about the reviews in the database such as number of reviews updated on IG, number of foreign reviews, number of different genre reviews, etc.
 ```
 GET /reviews/general
     ?table={review-table-specified}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -155,11 +155,12 @@ JSON Response:
     }
 
 ### Update Instagram status
-Change and update the IG status of a review. **ACCESS LEVEL : 3**
+**ACCESS LEVEL : 3**
+Change and update the IG status of a review.
 ```
 PATCH /reviews/updateIG
     ?table={review-table-specified}&id={review-id-specified}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    uid={access-token-uid}
 ```
 JSON Response:
 
@@ -179,11 +180,12 @@ JSON Response:
     }
 
 ### Update a review
-Make updates to any specific field of the review. For images, only the uploaded url linked is passed as that is taken care of in the admin panel. **ACCESS LEVEL : 3**
+**ACCESS LEVEL : 3**
+Make updates to any specific field of the review. For images, only the uploaded url linked is passed as that is taken care of in the admin panel.
 ```
 PUT /reviews/update
     ?table={review-table-specified}&id={review-id-specified}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -203,11 +205,12 @@ JSON Response:
     }
 
 ### Upload a review
-Upload a review to the specified table in the database. **ACCESS LEVEL : 2**
+**ACCESS LEVEL : 2**
+Upload a review to the specified table in the database.
 ```
 POST /reviews/upload
     ?table={review-table-specified}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -227,11 +230,12 @@ JSON Response:
     }
 
 ### Delete a review
-Delete a review from the specified table from the database. **ACCESS LEVEL : 3**
+**ACCESS LEVEL : 3**
+Delete a review from the specified table from the database.
 ```
 DELETE /reviews/delete
     ?table={review-table-specified}&id={review-id-specified}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -255,10 +259,11 @@ JSON Response:
 This route will get results for all the analytics and general info of the IG account of MBtS
 
 ### Get general info
-This will return the basic info of the IG page such as the category, followers and following counts, etc. **ACCESS LEVEL : 4**
+**ACCESS LEVEL : 4**
+This will return the basic info of the IG page such as the category, followers and following counts, etc.
 ```
 GET /instagram
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -273,10 +278,11 @@ JSON Response:
     }
 
 ### Get daily users analytics
-This will return the daily user interaction, reach and engament information. **ACCESS LEVEL : 4**
+**ACCESS LEVEL : 4**
+This will return the daily user interaction, reach and engament information.
 ```
 GET /instagram/users
-    ?auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
     
@@ -291,10 +297,11 @@ JSON Response:
     }
 
 ### Get latest post
-This will get the latest post uploaded on the IG page. **ACCESS LEVEL : 4**
+**ACCESS LEVEL : 4**
+This will get the latest post uploaded on the IG page.
 ```
 GET /instagram/latest
-    ?auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -309,10 +316,11 @@ JSON Response:
     }
 
 ### Get last week insights
-This will get the insights from last week's uploaded posts with metrics such as reach, engagements, impressions and saved. **ACCESS LEVEL : 4**
+**ACCESS LEVEL : 4**
+This will get the insights from last week's uploaded posts with metrics such as reach, engagements, impressions and saved.
 ```
 GET /instagram/insights
-    ?auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
@@ -336,11 +344,12 @@ JSON Response:
 These routes can be used to manage the users and their access and control over the API.
 
 ### Create a User
-This route will help create a user with the specified access level and correspondingly generate their UIDs. **ACCESS LEVEL : 5**
+**ACCESS LEVEL : 5**
+This route will help create a user with the specified access level and correspondingly generate their UIDs.
 ```
 POST /admin/createUser
     ?name={user-name}&email={user-email}&password={user-password}&accessLevel={access-level-to-be-given}
-    &auth_id={auth-id-token}&uid={access-token-uid}
+    &uid={access-token-uid}
 ```
 JSON Response:
 
