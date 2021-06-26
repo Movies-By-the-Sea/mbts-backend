@@ -1,6 +1,7 @@
 const { db, auth } = require("../firebase");
-const admin = require("./admin");
 require("dotenv").config({path:"../.env"});
+
+
 
 async function isAuthorized(req, res, next, authLevel) {
     await auth
@@ -17,5 +18,7 @@ async function isAuthorized(req, res, next, authLevel) {
             }
         })
 };
+
+
 
 module.exports = isAuthorized;

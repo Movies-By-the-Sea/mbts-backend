@@ -1,6 +1,7 @@
 const reviewRoute  = require("./routes/reviews");
 const instaRoute   = require("./routes/instagram");
 const adminRoute   = require("./routes/admin");
+const userRoute    = require("./routes/user");
 
 const express      = require("express");
 const cors         = require("cors");
@@ -16,9 +17,10 @@ app.use(express.urlencoded({extended:true}));
 
 // PRIMARY ROUTES
 app.get('/',          (req, res)=> res.status(200).json({"message":"Hello world"}));
+app.use("/user",      userRoute);
+app.use("/admin",     adminRoute);
 app.use("/reviews",   reviewRoute);
 app.use("/instagram", instaRoute);
-app.use("/admin",     adminRoute);
 
 
 

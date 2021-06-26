@@ -496,8 +496,13 @@ JSON Response:
 
 ---
 
+## User Route
+This route can only be accessed by users who have been already authenticated. Meaning only those who have a vaild UID token, or have their email password key in out database can access these routes. Access level for this route is applicable to all from 1 to 5.
+
+---
+
 ### Get a user by email and password
-**ACCESS LEVEL : anyone having verified email and password with MBtS DB**
+**ACCESS LEVEL : ALL VERIFIED**
 
 This route will give you all the information about your account with MBtS including your access level and UID tokens. Refer to this if you have forgotten or misplaced your token.
 
