@@ -1,6 +1,6 @@
 # API Endpoints
 
-_Last updated : Friday, 25th June, 2021_
+_Last updated : Friday, 26th June, 2021_
 
 Currntly cappable of performing CRUD operations on the database and gather basic insights from the Instagram page. Plans to make more routes with complex queris and analytics from both the website (via Google-Analytics) and the IG page in pipeline. Latest version already hosted on Heroku.
 
@@ -369,6 +369,30 @@ JSON Response:
 ## Admin Routes
 These routes can be used to manage the users and their access and control over the API.
 
+### Get all Users
+**ACCESS LEVEL : 5**
+This route will get all the users in the database with their complete info and access Levels.
+```
+GET /admin/
+    ?uid={access-token-uid}
+```
+JSON Response:
+
+    {
+        message: "query successul",
+        size   : <array-length-of-users>,
+        request:
+        {
+            type: "GET",
+            url : process.env.SERVER + "/admin" + "/",
+            body:
+            {
+                uid: <user-uid>
+            }
+        },
+        response: <array-of-users>
+    }
+
 ### Create a User
 **ACCESS LEVEL : 5**
 This route will help create a user with the specified access level and correspondingly generate their UIDs.
@@ -400,5 +424,29 @@ JSON Response:
         response :
         {
             uid_created: <uid-generated-of-the-created-user>
+        }
+    }
+
+### Delete a User
+**ACCESS LEVEL : 5**
+This route will delete the user from the user database and revoke all their access.
+```
+DELETE /admin/delete
+    ?delete_uid={uid-of-user-to-be-deleted}
+    &uid={access-token-uid}
+```
+JSON Response:
+
+    {
+        message: "successfully deleted user",
+        request:
+        {
+            type: "DELETE",
+            url : process.env.SERVER + "/admin" + "/delete",
+            body:
+            {
+                auth_uid  : <user-suid>,
+                delete_uid: <uid-of-the-user-to-be-deleted>
+            }
         }
     }
