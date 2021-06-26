@@ -1,4 +1,4 @@
-const admin = require("firebase-admin");
+const { db, auth } = require("../firebase");
 require("dotenv").config({path:"../.env"});
 
 
@@ -20,12 +20,12 @@ async function createUser(req, res) {
                 message: "Cannot have access level above 5"
             });
     };
-    const { uid } = await admin.auth().createUser({
+    const { uid } = await auth.createUser({
         name,
         password,
         email
     });
-    await admin.auth().setCustomUserClaims(uid,{
+    await auth.setCustomUserClaims(uid, {
         accessLevel: accessLevel
     });
     return res
@@ -34,20 +34,67 @@ async function createUser(req, res) {
             message: "User successfully created",
             request: {
                 type: "POST",
-                url : process.env.SERVER + "/admin" + "/createAPIUser"
+                url : process.env.SERVER + "/admin" + "/create",
+                body: {
+                    accessLevel: accessLevel,
+                    user       : {
+                        name    : name,
+                        email   : email,
+                        password: password
+                    }
+                }
             },
             response : {
-                uid        : uid,
-                accessLevel: accessLevel,
-                user       : {
-                    name    : name,
-                    email   : email,
-                    password: password
-                }
+                uid        : uid
             }
         });
 };
 
+
+async function deleteUser(req, res) {
+    auth
+        .deleteUser(req.body.delete_uid)
+        .then(() => {
+            return res
+                .status(200)
+                .json({
+                    message: "successfully deleted user",
+                    request: {
+                        type: "DELETE",
+                        url : process.env.SERVER + "/admin" + "/delete",
+                        body: {
+                            auth_uid  : req.body.uid,
+                            delete_uid: req.body.delete_uid
+                        }
+                    }
+                })
+        })
+}
+
+
+async function getAllUsers(req, res) {
+    auth
+        .listUsers()
+        .then((userRecords) => {
+            return res
+                .status(200)
+                .json({
+                    message: "query successul",
+                    size   : userRecords.users.length,
+                    request: {
+                        type: "GET",
+                        url : process.env.SERVER + "/admin" + "/",
+                        body: {
+                            uid: req.body.uid
+                        }
+                    },
+                    response: userRecords.users
+                })
+        })
+}
+
 module.exports = {
-    createUser: createUser
+    createUser : createUser,
+    deleteUser : deleteUser,
+    getAllUsers: getAllUsers
 }

@@ -5,10 +5,18 @@ const admin        = require("../Auth/admin");
 const router       = express.Router();
 
 // ONLY AUTHLEVEL 5 USERS CAN CREATE OTHER USERS
-router.post("/createUser",
+router.get("/",
     asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
-    asyncHandler((req, res) => admin.createUser(req, res))
+    asyncHandler((req, res)       => admin.getAllUsers(req, res))
+);
+router.post("/create",
+    asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
+    asyncHandler((req, res)       => admin.createUser(req, res))
 )
+router.delete("/delete",
+    asyncHandler((req, res, next) => isAuthorized(req, res, next, 5)),
+    asyncHandler((req, res)       => admin.deleteUser(req, res))
+);
 
 
 module.exports = router;
