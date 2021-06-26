@@ -52,6 +52,8 @@ JSON Response:
 This route will point to all operations on the database
 The tables here refer to either of the two - **movie-reviews** / **short-film-reviews**
 
+---
+
 ### Get all reviews
 **ACCESS LEVEL : 1**
 
@@ -80,6 +82,8 @@ JSON Response:
         response: <response-data>
     }
 
+---
+
 ### Get Review By ID
 **ACCESS LEVEL : 1**
 
@@ -106,6 +110,8 @@ JSON Response:
         },
         response: <array-of-data>,
     }
+
+---
 
 ### Get general Information
 **ACCESS LEVEL : 1**
@@ -161,6 +167,8 @@ JSON Response:
         }
     }
 
+---
+
 ### Update Instagram status
 **ACCESS LEVEL : 3**
 
@@ -188,6 +196,8 @@ JSON Response:
         },
     }
 
+---
+
 ### Update a review
 **ACCESS LEVEL : 3**
 
@@ -214,6 +224,8 @@ JSON Response:
               }
         },
     }
+
+---
 
 ### Upload a review
 **ACCESS LEVEL : 2**
@@ -244,6 +256,8 @@ JSON Response:
             review_id: <review-id-generated>
         }
     }
+
+---
 
 ### Delete a review
 **ACCESS LEVEL : 3**
@@ -276,6 +290,8 @@ JSON Response:
 ## Instagram Routes
 This route will get results for all the analytics and general info of the IG account of MBtS
 
+---
+
 ### Get general info
 **ACCESS LEVEL : 4**
 
@@ -299,6 +315,8 @@ JSON Response:
         },
         response: <business-discovery-data-from-graph-api>
     }
+
+---
 
 ### Get daily users analytics
 **ACCESS LEVEL : 4**
@@ -324,6 +342,8 @@ JSON Response:
         response: <graph-api-response-data>
     }
 
+---
+
 ### Get latest post
 **ACCESS LEVEL : 4**
 
@@ -347,6 +367,8 @@ JSON Response:
         },
         response: <graph-api-response-data>   
     }
+
+---
 
 ### Get last week insights
 **ACCESS LEVEL : 4**
@@ -381,6 +403,8 @@ JSON Response:
 ## Admin Routes
 These routes can be used to manage the users and their access and control over the API.
 
+---
+
 ### Get all Users
 **ACCESS LEVEL : 5**
 
@@ -405,6 +429,8 @@ JSON Response:
         },
         response: <array-of-users>
     }
+
+---
 
 ### Create a User
 **ACCESS LEVEL : 5**
@@ -441,6 +467,8 @@ JSON Response:
         }
     }
 
+---
+
 ### Delete a User
 **ACCESS LEVEL : 5**
 
@@ -465,6 +493,8 @@ JSON Response:
             }
         }
     }
+
+---
 
 ### Get a user by email and password
 **ACCESS LEVEL : anyone having verified email and password with MBtS DB**
