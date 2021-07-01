@@ -1,4 +1,6 @@
 const { db, auth } = require("../firebase");
+require("dotenv").config();
+
 
 
 async function getAccessLevel(uid) {
@@ -115,9 +117,38 @@ async function maskDataByAuth(req, getUnique=false) {
     }
 }
 
+function mapAccessLevel(accessLevel) {
+    switch(accessLevel) {
+        case 1 : return "Reader Access";
+        case 2 : return "Writer Access";
+        case 3 : return "Manager Access";
+        case 4 : return "Analytics Access";
+        case 5 : return "Admin Access";
+        default: return "Public Access";
+    }
+}
+
+
+async function formatResponse(req, res, status, resp) {
+    const accessLevel = await getAccessLevel(req.body.uid);
+    return res.status(status).json({
+        remark: resp.remark || "Query successful",
+        size   : resp.size || 1,
+        request: {
+            type: resp.requestType,
+            auth: resp.auth || mapAccessLevel(accessLevel),
+            URL : process.env.SERVER + resp.URL,
+            body: req.body || []
+        },
+        response: resp.response
+    })
+}
+
+
 module.exports = {
     maskDataByAuth  : maskDataByAuth,
     getQueryData    : getQueryData,
     getDataByGenre  : getDataByGenre,
-    getDataByTableID: getDataByTableID
+    getDataByTableID: getDataByTableID,
+    formatResponse  : formatResponse
 }

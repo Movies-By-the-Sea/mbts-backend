@@ -10,23 +10,15 @@ require("dotenv").config();
 
 async function getAllReviews(req, res) {
   await utils.maskDataByAuth(req).then((result) => {
-    return res
-        .status(200)
-        .json({
-            message: "query successful",
-            size   : result.data.length,
-            request: {
-                type: "GET",
-                auth: result.type,
-                url : process.env.SERVER + "/reviews",
-                body: {
-                  uid    : req.body.uid,
-                  table  : req.body.table,
-                  orderBy: "timestamp"
-                }
-            },
-            response: result.data
-        })  
+    info = {
+      remark     : "Reviews ordered by timestamp",
+      size       : result.data.length,
+      requestType: 'GET',
+      auth       : result.type,
+      URL        : '/reviews',
+      response   : result.data
+    };
+    utils.formatResponse(req, res, 200, info); 
   })
 }
 
@@ -42,22 +34,13 @@ async function getAllReviews(req, res) {
 
 async function getReviewByID(req, res) {
   await utils.maskDataByAuth(req, getUnique=true).then((result) => {
-    return res
-    .status(200)
-    .json({
-      message: "Query successful",
-      request: {
-        type: "GET",
-        auth: result.type,
-        url : process.env.SERVER + "/reviews" + "/get",
-        body: {
-          uid    : req.body.uid,
-          table: req.body.table,
-          id   : req.body.id
-        }
-      },
-      response: result.data,
-    });
+    info = {
+      requestType: 'GET',
+      auth       : result.type,
+      URL        : '/reviews' + '/get',
+      response   : result.data
+    }
+    utils.formatResponse(req, res, 200, info);
   })
 }
 
@@ -72,19 +55,10 @@ async function getReviewByID(req, res) {
 //=====================================================================================
 
 async function getGeneralInfo(req, res) {
-  return res
-  .status(200)
-  .json({
-    message: "Query successful",
-    request: {
-      type: "GET",
-      url : process.env.SERVER + "/reviews" + "/general",
-      body: {
-        uid    : req.body.uid,
-        table: req.body.table
-      }
-    },
-    response: {
+  info = {
+    requestType: 'GET',
+    URL        : '/reviews' + '/general',
+    response   : {
       Instagram : await utils.getQueryData(req.body.table, "instagram"),
       Netflix   : await utils.getQueryData(req.body.table, "netflix"),
       Prime     : await utils.getQueryData(req.body.table, "prime"),
@@ -110,8 +84,9 @@ async function getGeneralInfo(req, res) {
         Indie        : await utils.getDataByGenre(req.body.table, "Indie"),
         Mystery      : await utils.getDataByGenre(req.body.table, "Mystery"),
       }
-    },
-  });
+    }
+  };
+  utils.formatResponse(req, res, 200, info);
 }
 
 //=====================================================================================
