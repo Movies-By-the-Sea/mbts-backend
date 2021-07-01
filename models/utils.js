@@ -207,7 +207,7 @@ async function formatResponse(req, res, status, resp) {
     }
     return res.status(status).json({
         remark : resp.remark || "Query successful",
-        size   : res.response === undefined ? 0   : res.response.length || 0,
+        size   : resp.size || 0,
         request: {
             type: resp.requestType || 'GET',
             auth: resp.auth || mapAccessLevel(await getAccessLevel(req.body.uid)),
