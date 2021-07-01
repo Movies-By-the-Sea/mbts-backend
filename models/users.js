@@ -61,7 +61,8 @@ async function updateInfo(req, res) {
             const ref = db.collection("users").doc(req.body.uid);
             await ref.update(req.body.updateData);
             info = {
-                URL: '/user' + '/update',
+                remark     : 'User info updated successfully',
+                URL        : '/user' + '/update',
                 requestType: 'PUT'
             };
             return utils.formatResponse(req, res, 200, info);

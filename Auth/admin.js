@@ -68,7 +68,7 @@ async function deleteUser(req, res) {
             .deleteUser(req.body.delete_uid)
             .then(() => {
                 info = {
-                    remark     : 'Successfully deleted user',
+                    remark     : 'User deleted successfully',
                     requestType: 'DELETE'
                 }
                 return utils.formatResponse(req, res, 200, info);
@@ -122,6 +122,7 @@ async function updateClaim(req, res) {
                 accessLevel: req.body.accessLevel
             });
             info = {
+                remark     : 'User claims updated successfully',
                 URL        : '/admin' + '/claims',
                 requestType: 'PATCH'
             };
