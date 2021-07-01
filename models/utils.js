@@ -3,9 +3,24 @@ require("dotenv").config();
 
 
 
+
+
+//=====================================================================
+//=====================================================================
+
 async function getAccessLevel(uid) {
     return (await auth.getUser(uid)).customClaims.accessLevel;
 }
+
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function getAllData(table) {
     const data = [];
@@ -15,20 +30,40 @@ async function getAllData(table) {
     return data;
 }
 
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
+
 async function getDataByTableID(table, id) {
     const reviewRef = db.collection(table).doc(id);
     return [(await reviewRef.get()).data()];
 }
 
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
+
 async function getQueryData(table, query, allInfo=false) {
-    const data = { size:0 , response:new Array() };
-    let counter = 0;
+    const data      = { size:0 , response:new Array() };
+    let   counter   = 0;
     const reviewRef = db.collection(table);
-    const snapshot = await reviewRef.where(query,"==",true).get();
+    const snapshot  = await reviewRef.where(query,"==",true).get();
     snapshot.forEach((doc) => {
         if(allInfo) {
             data.response.push({
-                id   : doc.id,
+                id  : doc.id,
                 data: doc.data()
             });
         };
@@ -38,10 +73,18 @@ async function getQueryData(table, query, allInfo=false) {
     return data;
 }
 
+//=====================================================================
+//=====================================================================
 
+
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function getDataByGenre(table, query, allInfo=false) {
-    const data = { size:0, response: new Array() };
+    const data      = { size:0, response: new Array() };
     let   counter   = 0;
     const reviewRef = db.collection(table);
     const snap      = await reviewRef.where("genre","array-contains",query).get();
@@ -56,9 +99,17 @@ async function getDataByGenre(table, query, allInfo=false) {
         });
     data.size = counter;
     return data
-  }
+}
+
+//=====================================================================
+//=====================================================================
+
   
 
+
+
+//=====================================================================
+//=====================================================================
 
 async function maskDataByAuth(req, getUnique=false) {
     const data = getUnique ? await getDataByTableID(req.body.table, req.body.id) : await getAllData(req.body.table);
@@ -72,8 +123,8 @@ async function maskDataByAuth(req, getUnique=false) {
         let publicData = new Array();
         data.forEach((doc) => {
             publicData.push({
-                "ID" : doc.id,
-                "data" : {
+                "ID"  : doc.id,
+                "data": {
                   name    : doc.name,
                   director: doc.director,
                   year    : doc.year,
@@ -117,6 +168,16 @@ async function maskDataByAuth(req, getUnique=false) {
     }
 }
 
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
+
 function mapAccessLevel(accessLevel) {
     switch(accessLevel) {
         case 1 : return "Reader Access";
@@ -128,6 +189,15 @@ function mapAccessLevel(accessLevel) {
     }
 }
 
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function formatResponse(req, res, status, resp) {
     if(status != 200) {
@@ -147,6 +217,12 @@ async function formatResponse(req, res, status, resp) {
         response: resp.response
     })
 }
+
+//=====================================================================
+//=====================================================================
+
+
+
 
 
 module.exports = {
