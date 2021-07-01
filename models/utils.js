@@ -13,17 +13,66 @@ async function getAllData(table) {
     return data;
 }
 
+async function getDataByTableID(table, id) {
+    const reviewRef = db.collection(table).doc(id);
+    return [(await reviewRef.get()).data()];
+}
+
+async function getQueryData(table, query, allInfo=false) {
+    const data = { size:0 , response:new Array() };
+    let counter = 0;
+    const reviewRef = db.collection(table);
+    const snapshot = await reviewRef.where(query,"==",true).get();
+    snapshot.forEach((doc) => {
+        if(allInfo) {
+            data.response.push({
+                id   : doc.id,
+                data: doc.data()
+            });
+        };
+        counter++;
+    });
+    data.size = counter;
+    return data;
+}
 
 
-async function maskDataByAuth(req) {
-    const data = await getAllData(req.body.table);
+
+async function getDataByGenre(table, query, allInfo=false) {
+    const data = { size:0, response: new Array() };
+    let   counter   = 0;
+    const reviewRef = db.collection(table);
+    const snap      = await reviewRef.where("genre","array-contains",query).get();
+    snap.forEach((doc) => {
+        if(allInfo) {
+            data.response.push({
+            id  : doc.id,
+            data: doc.data()
+            });
+        }
+        counter++;
+        });
+    data.size = counter;
+    return data
+  }
+  
+
+
+async function maskDataByAuth(req, getUnique=false) {
+    const data = getUnique ? await getDataByTableID(req.body.table, req.body.id) : await getAllData(req.body.table);
+    if(data[0] === undefined) {
+        return {
+            data: "No such review with given ID found",
+            type: "Invalid request"
+        }
+    }
     if(req.body.uid === undefined) {
         let publicData = new Array();
         data.forEach((doc) => {
             publicData.push({
                 "ID" : doc.id,
                 "data" : {
-                  name    : doc.data.name,
+                  name    : doc.name,
                   director: doc.director,
                   year    : doc.year,
                   lead    : doc.lead,
@@ -67,5 +116,8 @@ async function maskDataByAuth(req) {
 }
 
 module.exports = {
-    maskDataByAuth: maskDataByAuth
+    maskDataByAuth  : maskDataByAuth,
+    getQueryData    : getQueryData,
+    getDataByGenre  : getDataByGenre,
+    getDataByTableID: getDataByTableID
 }
