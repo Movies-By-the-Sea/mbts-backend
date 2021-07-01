@@ -133,9 +133,9 @@ async function formatResponse(req, res, status, resp) {
     const accessLevel = await getAccessLevel(req.body.uid);
     return res.status(status).json({
         remark: resp.remark || "Query successful",
-        size   : resp.size || 1,
+        size   : resp.response.length || 1,
         request: {
-            type: resp.requestType,
+            type: resp.requestType || 'GET',
             auth: resp.auth || mapAccessLevel(accessLevel),
             URL : process.env.SERVER + resp.URL,
             body: req.body || []

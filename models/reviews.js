@@ -12,8 +12,6 @@ async function getAllReviews(req, res) {
   await utils.maskDataByAuth(req).then((result) => {
     info = {
       remark     : "Reviews ordered by timestamp",
-      size       : result.data.length,
-      requestType: 'GET',
       auth       : result.type,
       URL        : '/reviews',
       response   : result.data
@@ -35,7 +33,6 @@ async function getAllReviews(req, res) {
 async function getReviewByID(req, res) {
   await utils.maskDataByAuth(req, getUnique=true).then((result) => {
     info = {
-      requestType: 'GET',
       auth       : result.type,
       URL        : '/reviews' + '/get',
       response   : result.data
@@ -56,7 +53,6 @@ async function getReviewByID(req, res) {
 
 async function getGeneralInfo(req, res) {
   info = {
-    requestType: 'GET',
     URL        : '/reviews' + '/general',
     response   : {
       Instagram : await utils.getQueryData(req.body.table, "instagram"),

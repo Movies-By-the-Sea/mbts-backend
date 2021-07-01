@@ -1,6 +1,7 @@
 const instagram   = require('./Instagram/insights');
 const accountInfo = require("./Instagram/account_general_info");
-const utils       = require('./Instagram/utils');
+const ig          = require('./Instagram/utils');
+const utils       = require("./utils");
 require('dotenv').config
 
 
@@ -8,23 +9,14 @@ require('dotenv').config
 
 
 async function getLatestPost(req, res) {
-    let params = utils.getCreds();
     await instagram
-    .getUserMedia(params)
+    .getUserMedia(ig.getCreds())
     .then((resp) => {
-        return res
-            .status(200)
-            .json({
-                message: 'query successful',
-                request: {
-                    type: "GET",
-                    url : process.env.SERVER + "/instagram" + "/latest",
-                    body: {
-                        uid: req.body.uid
-                    }
-                },
-                response: resp['data']['data'][0]
-            });
+        info = {
+            URL     : '/instagram' + '/latest',
+            response: resp.data['data'][0]
+        }
+        utils.formatResponse(req, res, 200, info)
     });
 };
 
@@ -33,22 +25,13 @@ async function getLatestPost(req, res) {
 
 
 async function getBusinessInfo(req, res) {
-    let params = utils.getCreds();
-    await accountInfo(params)
+    await accountInfo(ig.getCreds())
     .then((resp) => {
-        return res
-            .status(200)
-            .json({
-                message: 'query successful',
-                request: {
-                    type: "GET",
-                    url : process.env.SERVER + "/instagram" + "/",
-                    body: {
-                        uid: req.body.uid
-                    }
-                },
-                response: resp['data']['business_discovery']
-            });
+        info = {
+            URL     : '/instagram',
+            response: resp.data.business_discovery
+        }
+        utils.formatResponse(req, res, 200, info);
     });
 };
 
@@ -57,10 +40,9 @@ async function getBusinessInfo(req, res) {
 
 
 async function getAllPosts() {
-    let   params = utils.getCreds();
     const result = [];
     await instagram
-    .getUserMedia(params)
+    .getUserMedia(ig.getCreds())
     .then((resp) => {
         posts = resp['data']['data'];
         posts.forEach((item, i) => {
@@ -81,7 +63,7 @@ async function getPostInsights(req, res) {
     let posts    = await getAllPosts();
     let insights = [];
     for(const item of posts) {
-        let params = utils.getCreds();
+        let params = ig.getCreds();
         params['latest_media_id'] = item['id'];
         await instagram
         .getMediaInsights(params)
@@ -114,22 +96,11 @@ async function getPostInsights(req, res) {
             });
         });
     };
-    return res
-        .status(200)
-        .json({
-            message: "query successful",
-            request: {
-                type: "GET",
-                url : process.env.SERVER + "/instagram" + "/insights",
-                body: {
-                    uid: req.body.uid
-                }
-            },
-            response : {
-                size    : insights.length,
-                insights: insights
-            }
-        });
+    info = {
+        URL     : '/instagram' + '/insights',
+        response: insights
+    };
+    utils.formatResponse(req, res, 200, info)
 };
 
 
@@ -137,23 +108,15 @@ async function getPostInsights(req, res) {
 
 
 async function getDailyUserInsights(req, res) {
-    let params = utils.getCreds();
+    let params = ig.getCreds();
     await instagram
     .getUserInsights(params)
     .then((resp) => {
-        return res
-            .status(200)
-            .json({
-                message: "query successful",
-                request: {
-                    type: "GET",
-                    url : process.env.SERVER + "/instagram" + "/users",
-                    body: {
-                        uid: req.body.uid
-                    }
-                },
-                response: resp['data']['data']
-            })
+        info = {
+            URL     : '/instagram' + '/users',
+            response: resp.data['data']
+        };
+        utils.formatResponse(req, res, 200, info);
     })
 }
 
