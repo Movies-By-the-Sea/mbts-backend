@@ -17,17 +17,22 @@ admin.initializeApp({
   credential : admin.credential.cert(serviceAccount)
 });
 
-// admin
-// .auth()
-// .getUser("")
-// .then((userRecord) => {
-//   console.log(userRecord.customClaims['accessLevel']);
-// });
 
 
-// admin
-// .auth()
-// .setCustomUserClaims(process.env.MASTER_UID, {
-//     accessLevel : 5
-// })
-// .then(() => console.log("Done"));
+// TO CHECK IF RECORD HAS BEEN UPDATED OR NOT
+admin
+.auth()
+.getUser("")
+.then((userRecord) => {
+  console.log(userRecord.customClaims['accessLevel']);
+});
+
+
+
+// UPDATE RECORD HERE
+admin
+.auth()
+.setCustomUserClaims(uid, {
+    accessLevel : 5
+})
+.then(() => console.log("Done"));
