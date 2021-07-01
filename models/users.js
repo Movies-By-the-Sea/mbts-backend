@@ -1,5 +1,6 @@
 const { db, auth } = require("../firebase");
-const bcrypt = require("bcrypt");
+const utils        = require("./utils");
+const bcrypt       = require("bcrypt");
 require("dotenv").config();
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
@@ -13,42 +14,24 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
 async function getInfo(req, res) {
 
     const userDB   = db.collection("users");
-    const snapshot = await userDB
-        .where("email","==",req.body.email)
-        .get();
+    const snapshot = await userDB.where("email","==",req.body.email).get();
     if(snapshot.empty) {
-        return res
-            .status(400)
-            .json({
-                message: "No such user found"
-            });
+        return utils.formatResponse(req, res, 400, {message: 'No such user with given Email ID found'});
     };
     snapshot.forEach(doc => {
         bcrypt.compare(req.body.password, doc.data().password, (err, result) => {
             if(result) {
-                return res
-                    .status(200)
-                    .json({
-                        message: "query successful",
-                        request: {
-                            type: "GET",
-                            url : process.env.SERVER + "/user",
-                            body: {
-                                email   : req.body.email,
-                                password: req.body.password
-                            }
-                        },
-                        response:{
-                            uid : doc.id,
-                            info: doc.data()
-                        }
-                    }); 
+                info = {
+                    auth    : 'Authorized user',
+                    URL     : '/user',
+                    response: {
+                        uid : doc.id,
+                        data: doc.data()
+                    }
+                }
+                return utils.formatResponse(req, res, 200, info);
             } else {
-                return res
-                    .status(400)
-                    .json({
-                        message: "Password does not match"
-                    })
+                return utils.formatResponse(req, res, 400, {message: 'Incorrect password. Try again'});
             }
         })
     });
@@ -66,11 +49,7 @@ async function getInfo(req, res) {
 
 async function updateInfo(req, res) {
     if(req.body.updateData.accessLevel != undefined) {
-        return res
-            .status(400)
-            .json({
-                message: "Unauthorized to change access level"
-            });
+        return utils.formatResponse(req, res, 400, {message:'Unauthorized to change Access Level'});
     } else {
         await auth
         .updateUser(req.body.uid, req.body.updateData)
@@ -81,19 +60,11 @@ async function updateInfo(req, res) {
             }
             const ref = db.collection("users").doc(req.body.uid);
             await ref.update(req.body.updateData);
-            return res
-                .status(200)
-                .json({
-                    message: "query successful",
-                    request: {
-                        type: "PUT",
-                        url : process.env.SERVER + "/user" + "/update",
-                        body: {
-                            uid       : req.body.uid,
-                            updateData: req.body.updateData
-                        }
-                    }
-                });
+            info = {
+                URL: '/user' + '/update',
+                requestType: 'PUT'
+            };
+            return utils.formatResponse(req, res, 200, info);
         });
     };
 }

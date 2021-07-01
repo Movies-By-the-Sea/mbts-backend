@@ -1,5 +1,4 @@
 const utils = require("./utils");
-require("dotenv").config();
 
 
 
@@ -16,7 +15,7 @@ async function getAllReviews(req, res) {
       URL        : '/reviews',
       response   : result.data
     };
-    utils.formatResponse(req, res, 200, info); 
+    return utils.formatResponse(req, res, 200, info); 
   })
 }
 
@@ -37,7 +36,7 @@ async function getReviewByID(req, res) {
       URL        : '/reviews' + '/get',
       response   : result.data
     }
-    utils.formatResponse(req, res, 200, info);
+    return utils.formatResponse(req, res, 200, info);
   })
 }
 
@@ -82,7 +81,7 @@ async function getGeneralInfo(req, res) {
       }
     }
   };
-  utils.formatResponse(req, res, 200, info);
+  return utils.formatResponse(req, res, 200, info);
 }
 
 //=====================================================================================

@@ -2,7 +2,6 @@ const instagram   = require('./Instagram/insights');
 const accountInfo = require("./Instagram/account_general_info");
 const ig          = require('./Instagram/utils');
 const utils       = require("./utils");
-require('dotenv').config
 
 
 
@@ -16,7 +15,7 @@ async function getLatestPost(req, res) {
             URL     : '/instagram' + '/latest',
             response: resp.data['data'][0]
         }
-        utils.formatResponse(req, res, 200, info)
+        return utils.formatResponse(req, res, 200, info)
     });
 };
 
@@ -31,7 +30,7 @@ async function getBusinessInfo(req, res) {
             URL     : '/instagram',
             response: resp.data.business_discovery
         }
-        utils.formatResponse(req, res, 200, info);
+        return utils.formatResponse(req, res, 200, info);
     });
 };
 
@@ -100,7 +99,7 @@ async function getPostInsights(req, res) {
         URL     : '/instagram' + '/insights',
         response: insights
     };
-    utils.formatResponse(req, res, 200, info)
+    return utils.formatResponse(req, res, 200, info)
 };
 
 
@@ -116,7 +115,7 @@ async function getDailyUserInsights(req, res) {
             URL     : '/instagram' + '/users',
             response: resp.data['data']
         };
-        utils.formatResponse(req, res, 200, info);
+        return utils.formatResponse(req, res, 200, info);
     })
 }
 

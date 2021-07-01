@@ -1,5 +1,5 @@
 const { db, admin } = require("../firebase");
-require("dotenv").config();
+const utils = require("./utils");
 
 
 
@@ -12,30 +12,17 @@ async function updateIGStatus(req, res) {
     const ref = db.collection(String(req.body.table)).doc(req.body.id);
     const doc = await ref.get();
     if (!doc.exists) {
-      return res
-          .status(404)
-          .json({
-            message: "No such review with given ID found",
-          });
+      return utils.formatResponse(req, res, 404, {message:'No such review with given ID found'});
     } else {
       await ref.update({
         "instagram": req.body.instagram,
       });
-      return res
-          .status(200)
-          .json({
-            message: "Query successful",
-            request: {
-              type: "PATCH",
-              url : process.env.SERVER + "/operations" + "/updateIG",
-              body: {
-                uid      : req.body.uid,
-                table    : req.body.table,
-                id       : req.body.id,
-                instagram: req.body.instagram
-              }
-            },
-          });
+      info = {
+        remark     : 'Review IG status updated successfully',
+        requestType: 'PATCH',
+        URL        : '/reviews' + '/updateIG'
+      }
+      return utils.formatResponse(req, res, 200, info);
     }
 }
 
@@ -53,28 +40,15 @@ async function updateReview(req, res) {
     const ref = db.collection(String(req.body.table)).doc(req.body.id);
     const doc = await ref.get();
     if (!doc.exists) {
-      return res
-          .status(404)
-          .json({
-            message: "No such review with given ID found",
-          });
+      return utils.formatResponse(req, res, 404, {message:'No such review with given ID found'});
     } else {
       await ref.update(req.body.update_data);
-      return res
-          .status(200)
-          .json({
-            message: "Query successful",
-            request: {
-              type: "PUT",
-              url : process.env.SERVER + "/operations" + "/update",
-              body: {
-                uid        : req.body.uid,
-                id         : req.body.id,
-                table      : req.body.table,
-                update_data: req.body.update_data,
-              }
-            },
-          });
+      info = {
+        remark     : 'Review updated successfully',
+        requestType: 'PUT',
+        URL        : '/reviews' + '/update'
+      }
+      return utils.formatResponse(req, res, 200, info);
     }
 }
 
@@ -119,23 +93,13 @@ async function uploadReview(req, res) {
         data.duration    = req.body.duration;
     }
     const doc = await db.collection(req.body.table).add(data);
-    return res
-        .status(200)
-        .json({
-        message: "Post added successfully",
-        request: {
-            type: "POST",
-            url : process.env.SERVER + "/operations" + "/upload",
-            body: {
-              uid          : req.body.uid,
-              table        : req.body.table,
-              data_uploaded: data,
-          }
-        },
-        response : {
-          review_id: doc.id
-        }
-    });    
+    info = {
+      remark     : 'Review uploaded successfully',
+      requestType: 'POST',
+      URL        : '/reviews' + '/upload',
+      response   : doc.id
+    }
+    return utils.formatResponse(req, res, 200, info);   
 }
 
 //=====================================================================================
@@ -150,20 +114,12 @@ async function uploadReview(req, res) {
 
 async function deleteReview(req, res) {
     await db.collection(req.body.table).doc(req.body.id).delete();
-    return res
-        .status(200)
-        .json({
-          message: "Document deleted successfully",
-          request: {
-            type: "DELETE",
-            url : process.env.SERVER + "/operations" + "/delete",
-            body: {
-              uid  : req.body.uid,
-              table: req.body.table,
-              id   : req.body.id
-            }
-          },
-        });  
+    info = {
+      remark     : 'Review deleted successfully',
+      requestType: 'DELETE',
+      URL        : '/reviews' + '/delete'
+    }
+    return utils.formatResponse(req, res, 200, info);
 }
 
 //=====================================================================================

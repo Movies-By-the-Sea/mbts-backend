@@ -130,13 +130,17 @@ function mapAccessLevel(accessLevel) {
 
 
 async function formatResponse(req, res, status, resp) {
-    const accessLevel = await getAccessLevel(req.body.uid);
+    if(status != 200) {
+        return res.status(status).json({
+            error: { message: resp.message }
+        });
+    }
     return res.status(status).json({
-        remark: resp.remark || "Query successful",
-        size   : resp.response.length || 1,
+        remark : resp.remark || "Query successful",
+        size   : res.response === undefined ? 0   : res.response.length || 0,
         request: {
             type: resp.requestType || 'GET',
-            auth: resp.auth || mapAccessLevel(accessLevel),
+            auth: resp.auth || mapAccessLevel(await getAccessLevel(req.body.uid)),
             URL : process.env.SERVER + resp.URL,
             body: req.body || []
         },
