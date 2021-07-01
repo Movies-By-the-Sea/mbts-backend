@@ -1,4 +1,5 @@
 const { db, admin } = require("../firebase");
+const utils = require("./utils");
 require("dotenv").config();
 
 
@@ -9,58 +10,25 @@ require("dotenv").config();
 //=====================================================================================
 
 async function getAllReviews(req, res) {
-  const data      = [];
-  const reviewRef = db.collection(req.body.table);
-  const snapshot  = await reviewRef.orderBy("timestamp").get();
-  snapshot.forEach((doc) => {
-    if(req.body.uid === undefined) {
-      data.push({
-        "ID" : doc.id,
-        "data" : {
-          name    : doc.data().name,
-          director: doc.data().director,
-          year    : doc.data().year,
-          lead    : doc.data().lead,
-          genre   : doc.data().genre,
-          review  : doc.data().review,
-          poster  : doc.data().poster,
-          ratings : {
-            story     : doc.data().story,
-            acting    : doc.data().acting,
-            execution : doc.data().execution,
-            profundity: doc.data().profundity,
-            overall   : doc.data().overall
-          },
-          foreign     : doc.data().foreign,
-          must_watch  : doc.data().must_watch,
-          amazon_prime: doc.data().prime,
-          netflix     : doc.data().netflix,
-          trailer     : doc.data().trailer
-        }
-      })
-    } else {
-      data.push({
-          "ID"  : doc.id,
-          "data": doc.data()
-      });
-    }
-  });
-  return res
-      .status(200)
-      .json({
-          message: "query successful",
-          size   : data.length,
-          request: {
-              type: "GET",
-              url : process.env.SERVER + "/reviews",
-              body: {
-                uid    : req.body.uid,
-                table  : req.body.table,
-                orderBy: "timestamp"
-              }
-          },
-          response: data
-      })  
+  await utils.maskDataByAuth(req).then((result) => {
+    return res
+        .status(200)
+        .json({
+            message: "query successful",
+            size   : result.data.length,
+            request: {
+                type: "GET",
+                auth: result.type,
+                url : process.env.SERVER + "/reviews",
+                body: {
+                  uid    : req.body.uid,
+                  table  : req.body.table,
+                  orderBy: "timestamp"
+                }
+            },
+            response: result.data
+        })  
+  })
 }
 
 //=====================================================================================
