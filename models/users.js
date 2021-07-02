@@ -1,4 +1,5 @@
 const { db, auth } = require("../firebase");
+const database     = require("./database");
 const utils        = require("./utils");
 const bcrypt       = require("bcrypt");
 require("dotenv").config();
@@ -81,7 +82,7 @@ async function updateInfo(req, res) {
 //==========================================================================================
 
 async function getUserPosts(req, res) {
-    const data = await utils.getQueryDataWithFields(req.body.table, "author_uid", req.body.uid, allInfo=true);
+    const data = await database.getQueryDataWithFields(req.body.table, "author_uid", req.body.uid, allInfo=true);
     info = {
         URL     : '/user' +'/posts',
         response: data.response,
