@@ -32,6 +32,8 @@ There are 2 main tables - movie-reviews and short-film-reviews. Their structure 
 | poster_name | string        | So as to map it between database and storage      |
 | poster_link | string        | Cloud Storage URL link to the poster              |
 | timestamp   | DateTime      | Time of creation of the post                      |
+| author      | String        | Author of the said review                         |
+| author_uid  | String        | UID of the author (access-controlled)             |
 
 ---
 
@@ -49,3 +51,18 @@ There are 2 main tables - movie-reviews and short-film-reviews. Their structure 
 | poster_name | string        | So as to map it between database and storage      |
 | poster_link | string        | Cloud Storage URL link to the poster              |
 | timestamp   | DateTime      | Time of creation of the post                      |
+| author      | String        | Author of the said review                         |
+| author_uid  | String        | UID of the author (access-controlled)             |
+
+---
+
+## users Table
+
+__NOTE :__ This table can only be accessed by 
+
+| Field       | Data type     | Description                                       |
+| ----------- | ------------- | ------------------------------------------------- |
+| name        | String        | Name of the user                                  |
+| email       | String        | Registered email ID of the user                   |
+| password    | String        | User password stored in Hash by SHA-256           |
+| accessLevel | integer       | Access level claim of said user                   |

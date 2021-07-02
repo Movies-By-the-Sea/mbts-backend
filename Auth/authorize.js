@@ -66,10 +66,30 @@ function isAuthenticated(req, res, next) {
 
 
 
+//=====================================================================
+//=====================================================================
+
+function enforcer(req, res, next) {
+    if(req.body.table === undefined) {
+        return next();
+    } else {
+        if(req.body.table === 'users') {
+            return res.status(400).json({error : {message: "Cannot access this table"}});
+        }
+    }
+    return next();
+}
+
+//=====================================================================
+//=====================================================================
+
+
+
 
 
 module.exports = {
     isAuthorized   : isAuthorized,
     isAuthenticated: isAuthenticated,
-    sharedAuthorize: sharedAuthorize
+    sharedAuthorize: sharedAuthorize,
+    enforcer       : enforcer 
 };

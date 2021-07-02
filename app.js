@@ -2,6 +2,7 @@ const reviewRoute  = require("./routes/reviews");
 const instaRoute   = require("./routes/instagram");
 const adminRoute   = require("./routes/admin");
 const userRoute    = require("./routes/user");
+const auth         = require("./Auth/authorize");
 
 const express      = require("express");
 const cors         = require("cors");
@@ -12,6 +13,7 @@ const app          = express();
 app.use(cors({origin: true}));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(auth.enforcer);
 
 
 
