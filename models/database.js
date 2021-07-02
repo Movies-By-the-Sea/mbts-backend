@@ -23,7 +23,10 @@ async function getAllData(table) {
     const data      = [];
     const reviewRef = db.collection(table);
     const snapshot  = await reviewRef.orderBy("timestamp").get();
-    snapshot.forEach((doc) => data.push(doc.data()));
+    snapshot.forEach((doc) => data.push({
+        ID  : doc.id,
+        data: doc.data()
+    }));
     return data;
 }
 
@@ -37,7 +40,8 @@ async function getAllData(table) {
 
 async function getDataByTableID(table, id) {
     const reviewRef = db.collection(table).doc(id);
-    return [(await reviewRef.get()).data()];
+    const result = await reviewRef.get();
+    return [{ID: result.id, data: result.data()}];
 }
 
 //=====================================================================
