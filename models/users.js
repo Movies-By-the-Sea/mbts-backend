@@ -77,7 +77,28 @@ async function updateInfo(req, res) {
 
 
 
+//==========================================================================================
+//==========================================================================================
+
+async function getUserPosts(req, res) {
+    const data = await utils.getQueryDataWithFields(req.body.table, "author_uid", req.body.uid, allInfo=true);
+    info = {
+        URL     : '/user' +'/posts',
+        response: data.response,
+        size    : data.size
+    };
+    return utils.formatResponse(req, res, 200, info);
+}
+
+//==========================================================================================
+//==========================================================================================
+
+
+
+
+
 module.exports = {
-    getInfo   : getInfo,
-    updateInfo: updateInfo
+    getInfo     : getInfo,
+    updateInfo  : updateInfo,
+    getUserPosts: getUserPosts
 }

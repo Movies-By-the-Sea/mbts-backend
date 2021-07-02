@@ -83,6 +83,34 @@ async function getQueryData(table, query, allInfo=false) {
 //=====================================================================
 //=====================================================================
 
+async function getQueryDataWithFields(table, query, fields, allInfo=false) {
+    const data      = { size:0 , response:new Array() };
+    let   counter   = 0;
+    const reviewRef = db.collection(table);
+    const snapshot  = await reviewRef.where(query,"==",fields).get();
+    snapshot.forEach((doc) => {
+        if(allInfo) {
+            data.response.push({
+                id  : doc.id,
+                data: doc.data()
+            });
+        };
+        counter++;
+    });
+    data.size = counter;
+    return data;
+}
+
+//=====================================================================
+//=====================================================================
+
+
+
+
+
+//=====================================================================
+//=====================================================================
+
 async function getDataByGenre(table, query, allInfo=false) {
     const data      = { size:0, response: new Array() };
     let   counter   = 0;
@@ -226,9 +254,10 @@ async function formatResponse(req, res, status, resp) {
 
 
 module.exports = {
-    maskDataByAuth  : maskDataByAuth,
-    getQueryData    : getQueryData,
-    getDataByGenre  : getDataByGenre,
-    getDataByTableID: getDataByTableID,
-    formatResponse  : formatResponse
+    maskDataByAuth        : maskDataByAuth,
+    getQueryData          : getQueryData,
+    getDataByGenre        : getDataByGenre,
+    getDataByTableID      : getDataByTableID,
+    formatResponse        : formatResponse,
+    getQueryDataWithFields: getQueryDataWithFields
 }

@@ -70,7 +70,9 @@ async function uploadReview(req, res) {
         instagram  : req.body.instagram,
         poster_name: req.body.poster_name,
         poster_link: req.body.poster_link,
-        timestamp  : req.body.timestamp
+        timestamp  : req.body.timestamp,
+        author     : req.body.author,
+        author_uid : req.body.uid
     };
     const table = req.body.table;
     if (table == "movie-reviews") {
