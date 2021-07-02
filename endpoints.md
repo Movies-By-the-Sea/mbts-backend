@@ -1,20 +1,20 @@
 # API Endpoints
 
-_Last updated : Friday, 26th June, 2021_
+_Last updated : Friday 2nd July, 2021_
 
-Currntly cappable of performing CRUD operations on the database and gather basic insights from the Instagram page. Plans to make more routes with complex queris and analytics from both the website (via Google-Analytics) and the IG page in pipeline. Latest version already hosted on Heroku.
-
-Encryption and storing of UIDs is handled by Firebase OAuth Authentication.
+1. Can perform CRUD operations on various tables in the database according to the authentication level provided.
+2. Can return analytics data from the Instagram page.
+3. User data storage and encryption handled by Firebase OAuth Authentication.
+4. Hosted on Heroku
 
 __Endpoint URL : [mbts-backend.herokuapp.com](https://mbts-backend.herokuapp.com/)__
 
----
-
 ## Authorization
 
-Authentication and authorization is done by the **user UID** token. These are generated when a user object is created and can be used to access various routes depending upon the access levels granted. This is specified in the UID token itself. Pass along these tokens in the request body to authroize it.
-
-Two routes have been made public for general purposes and can be accessed without any UID tokens. Read more about them in the [README.md](README.md) file.
+1. Done using UID tokens generated when a user is created in the MBtS database.
+2. Each UID token contains information about the user access level according to which various API routes are available.
+3. These tokens are passed along in the body of each request and the corresponding response is masked accordingly.
+4. Few routes have been made public which **does not require** use of UID token. Read more about them in the [README.md](README.md) 
 
 ### Access Levels
 
@@ -28,8 +28,19 @@ There are 5 access levels. Each level allows the use of routes which are below i
 | 4            | analytics | Has access to IG analytics routes                                        |
 | 5            | admin     | Has master access to all routes and can revoke levels                    |
 
+__NOTE__ : Get in touch to create your user account and access the API. If you already have an email account verified here but do not have the UID token, follow the _"/admin/user"_ route for more info.
 
-__NOTE__ : Get in touch to create your user account and access the API. If you already have an email account verified here but do not have the UID token, follow the _"/admin/user"_ route for more info
+### Error Handling
+
+1. Error messages can either be custom made or sent by the Firebase API or the Facebook Graph API.
+2. These errors are sent as JSON response in the below format
+```
+{
+    error: {
+        message: <error-message>
+    }
+}
+```
 
 ---
 
@@ -49,71 +60,65 @@ JSON Response:
 ---
 
 ## Reviews Routes
-This route will point to all operations on the database
-The tables here refer to either of the two - **movie-reviews** / **short-film-reviews**
+
+1. Can be used to perform CRUD operations on the reviews database.
+2. Tables to be used - **movie-reviews** / **short-film-reviews**
 
 ---
 
-### Get all reviews
-**ACCESS LEVEL : 1**
+### Get all Reviews
+**ACCESS LEVEL : public + Authorized**
 
-Get all the reviews from the specified table. Public version of this route is also available which will give less data in response to the one given here passing the UID token. Read more about it [here](README.md).
+1. Will get all the reviews from the table specified.
+2. Using public route will return all general info about each review. Below 3 access level will get additional image specifications and 3 above will get that plus post meta data information.
 ```
 GET /reviews
     ?table={review-table-specified}
-    &uid={access-token-uid}
+    &uid={access-token-uid-(optional)}
 ```
 JSON Response:
 
     {
-        message: "query successful",
-        size   : <length-of-the-returned-data>,
-        request: 
-        {
+        remarks: "Reviews sorted by timestamp",
+        size   : <number-of-reviews-returned>
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/reviews",
-            body: 
-            {
-                uid    : <uid-of-the-user>,
-                table  : <specified-table>,
-                orderBy: "timestamp"
-            }
+            auth: <{Public}-if-not-specified-else-access-level>,
+            URL : "/reviews",
+            body: <contents-of-request-body>
         },
-        response: <response-data>
+        response: <array-of-items-with-each-item-information-in-json>
     }
 
 ---
 
-### Get Review By ID
-**ACCESS LEVEL : 1**
+### Get Review by ID
+**ACCESS LEVEL : public + Authorized**
 
-Get particular movie review by ID. Public version of this route is also available which will give less data in response to the one given here passing the UID token. Read more about it [here](README.md).
+1. Get particular review by ID from database.
+2. Using public route will return all general info about each review. Below 3 access level will get additional image specifications and 3 above will get that plus post meta data information.
 ```
-GET /reviews/get
-    ?table={review-table-specified}&id={review-id}
-    &uid={access-token-uid}
+GET /reviews
+    ?table={review-table-specified}
+    &uid={access-token-uid-(optional)}
 ```
 JSON Response:
 
     {
-        message: "Query successful",
-        request: 
-        {
+        remarks: "Query successful",
+        size   : 1
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/reviews" + "/get",
-            body: 
-            {
-                uid  : <uid-of-the-user>                
-                table: <specified-table>,
-                id   : <specified-review-id>
-            }
+            auth: <{Public}-if-not-specified-else-access-level>,
+            URL : "/reviews/get",
+            body: <contents-of-request-body>
         },
-        response: <array-of-data>,
+        response: <review-data-in-json>
     }
 
 ---
 
-### Get general Information
+### Get General Information
 **ACCESS LEVEL : 1**
 
 Get general info about the reviews in the database such as number of reviews updated on IG, number of foreign reviews, number of different genre reviews, etc.
@@ -125,16 +130,14 @@ GET /reviews/general
 JSON Response:
 
     {
-        message: "Query successful",
+        remarks: "Query successful",
+        size   : 1
         request: 
         {
             type: "GET",
-            url : process.env.SERVER + "/reviews" + "/general",
-            body: 
-            {   
-                uid  : <user-uid>
-                table: <specified-table>
-            }
+            auth: <access-level-of-user>
+            URL : "/reviews/general,
+            body: <contents-of-request-body>
         },
         response: 
         {
@@ -169,39 +172,37 @@ JSON Response:
 
 ---
 
-### Update Instagram status
+### Update Instagram Status
 **ACCESS LEVEL : 3**
 
 Change and update the IG status of a review.
 ```
 PATCH /reviews/updateIG
-    ?table={review-table-specified}&id={review-id-specified}
+    ?table={review-table-specified}&id={review-id-specified}&instagram={new-status}
     uid={access-token-uid}
 ```
 JSON Response:
 
     {
-        message: "Query successful",
-        request: 
-        {
+        remarks: "Review Instagram status updated successful",
+        size   : 0
+        request: {
             type: "PATCH",
-            url : process.env.SERVER + "/operations" + "/updateIG",
-            body: 
-            {
-                uid      : <user-uid>
-                table    : <specified-table>,
-                id       : <specified-review-id>,
-                instagram: <specified-IG-status>
-            }
+            auth: <access-level-of-user>,
+            URL : "/reviews/updateIG",
+            body: <contents-of-request-body>
         },
+        response: []
     }
 
 ---
 
-### Update a review
-**ACCESS LEVEL : 3**
+### Update Review
+**ACCESS LEVEL : 3 + user-matched-review**
 
-Make updates to any specific field of the review. For images, only the uploaded url linked is passed as that is taken care of in the admin panel.
+1. Make updates to any specific fields of the review.
+2. Image updating can only be done via the admin panel.
+3. Can be access by users with level 3 and above access or by the author of the said review to be updated.
 ```
 PUT /reviews/update
     ?table={review-table-specified}&id={review-id-specified}
@@ -210,59 +211,50 @@ PUT /reviews/update
 JSON Response:
 
     {
-        message: "Query successful",
-        request: 
-        {
-              type: "PUT",
-              url : process.env.SERVER + "/operations" + "/update",
-              body:
-              {
-                  uid        : <user-uid>
-                  id         : <specified-review-id>,
-                  table      : <specified-table>,
-                  update_data: <updated-data-to-be-sent>,
-              }
+        remarks: "Review updated successful",
+        size   : 0
+        request: {
+            type: "PUT",
+            auth: <access-level-of-user>,
+            URL : "/reviews/update",
+            body: <contents-of-request-body>
         },
+        response: []
     }
 
 ---
 
-### Upload a review
-**ACCESS LEVEL : 2**
+### Upload Review
+**ACCESS LEVLE : 2**
 
-Upload a review to the specified table in the database.
+1. Upload a review to the specified table in database
+2. Also include your email(author) and uid(author_uid) in the request body so that the review maps to particular user.
 ```
 POST /reviews/upload
-    ?table={review-table-specified}
+    ?table={review-table-specified}&upload_data={data-to-be-filled}&author={verified-user-email-id}
     &uid={access-token-uid}
 ```
 JSON Response:
 
     {
-        message: "Post added successfully",
-        request: 
-        {
+        remarks: "Review uploaded successful",
+        size   : 0
+        request: {
             type: "POST",
-            url : process.env.SERVER + "/operations" + "/upload",
-            body: 
-            {
-                uid          : <user-uid>
-                table        : <specified-table>
-                data_uploaded: <review-data-to-be-uploaded>,
-            }
+            auth: <access-level-of-user>,
+            URL : "/reviews/upload",
+            body: <contents-of-request-body>
         },
-        response:
-        {
-            review_id: <review-id-generated>
-        }
+        response: <id-generated-of-review>
     }
 
 ---
 
-### Delete a review
-**ACCESS LEVEL : 3**
+### Delete Review
+**ACCESS LEVEL : 3 + user-matched-review**
 
-Delete a review from the specified table from the database.
+1. Delete a review from the specified table from the database.
+2. Can be access by users with level 3 and above access or by the author of the said review to be updated.
 ```
 DELETE /reviews/delete
     ?table={review-table-specified}&id={review-id-specified}
@@ -271,28 +263,27 @@ DELETE /reviews/delete
 JSON Response:
 
     {
-        message: "Document deleted successfully",
-        request: 
-        {
+        remarks: "Review deleted successful",
+        size   : 0
+        request: {
             type: "DELETE",
-            url : process.env.SERVER + "/operations" + "/delete",
-            body: 
-            {
-                uid  : <user-uid>
-                table: <specified-table>,
-                id   : <specified-review-id>
-            }
+            auth: <access-level-of-user>,
+            URL : "/reviews/delete",
+            body: <contents-of-request-body>
         },
+        response: []
     }
 
 ---
 
 ## Instagram Routes
-This route will get results for all the analytics and general info of the IG account of MBtS
+
+1. This route will get results for all the analytics and general info of the IG account of MBtS.
+2. Only users with Access Level 4 and above can use these routes
 
 ---
 
-### Get general info
+### Get General Information
 **ACCESS LEVEL : 4**
 
 This will return the basic info of the IG page such as the category, followers and following counts, etc.
@@ -303,22 +294,20 @@ GET /instagram
 JSON Response:
 
     {
-        message: 'query successful',
-        request: 
-        {
+        remarks: "Query successful",
+        size   : 1
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/",
-            body:
-            {
-                uid: <user-uid>
-            }
+            auth: <access-level-of-user>,
+            URL : "/instagram",
+            body: <contents-of-request-body>
         },
         response: <business-discovery-data-from-graph-api>
     }
 
 ---
 
-### Get daily users analytics
+### Get Daily User Analytics
 **ACCESS LEVEL : 4**
 
 This will return the daily user interaction, reach and engament information.
@@ -327,24 +316,22 @@ GET /instagram/users
     &uid={access-token-uid}
 ```
 JSON Response:
-    
+
     {
-        message: "query successful",
-        request: 
-        {
+        remarks: "Query successful",
+        size   : <number-of-fields-returned>
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/users",
-            body:
-            {
-                uid: <user-uid>
-            }
+            auth: <access-level-of-user>,
+            URL : "/instagram/users",
+            body: <contents-of-request-body>
         },
-        response: <graph-api-response-data>
+        response: <graph-api-response>
     }
 
 ---
 
-### Get latest post
+### Get Latest Post
 **ACCESS LEVEL : 4**
 
 This will get the latest post uploaded on the IG page.
@@ -355,22 +342,20 @@ GET /instagram/latest
 JSON Response:
 
     {
-        message: "query successful",
-        request: 
-        {
+        remarks: "Query successful",
+        size   : <number-of-fields-returned>
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/latest",
-            body:
-            {
-                uid: <user-uid>
-            }
+            auth: <access-level-of-user>,
+            URL : "/instagram/latest",
+            body: <contents-of-request-body>
         },
-        response: <graph-api-response-data>   
+        response: <graph-api-response>
     }
 
 ---
 
-### Get last week insights
+### Get Last Week's Insights
 **ACCESS LEVEL : 4**
 
 This will get the insights from last week's uploaded posts with metrics such as reach, engagements, impressions and saved.
@@ -381,31 +366,27 @@ GET /instagram/insights
 JSON Response:
 
     {
-        message: "query successful",
-        request: 
-        {
+        remarks: "Query successful",
+        size   : <number-of-fields-returned>
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/instagram" + "/insights",
-            body:
-            {
-                uid: <user-uid>
-            }
+            auth: <access-level-of-user>,
+            URL : "/instagram/insights",
+            body: <contents-of-request-body>
         },
-        response : 
-        {
-            size    : <array-size-of-insights>,
-            insights: <array-of-insights>
-        }
+        response: <array-of-different-insights>
     }
 
 ---
 
 ## Admin Routes
-These routes can be used to manage the users and their access and control over the API.
+
+1. These routes can be used to manage the users and their access and control over the API.
+2. Only users with access level 5 can use these routes.
 
 ---
 
-### Get all Users
+### Get All Users
 **ACCESS LEVEL : 5**
 
 This route will get all the users in the database with their complete info and access Levels.
@@ -416,23 +397,20 @@ GET /admin/
 JSON Response:
 
     {
-        message: "query successul",
-        size   : <array-length-of-users>,
-        request:
-        {
+        remarks: "Query successful",
+        size   : <array-length-of-users>
+        request: {
             type: "GET",
-            url : process.env.SERVER + "/admin" + "/",
-            body:
-            {
-                uid: <user-uid>
-            }
+            auth: <access-level-of-user>,
+            URL : "/admin",
+            body: <contents-of-request-body>
         },
         response: <array-of-users>
     }
 
 ---
 
-### Create a User
+### Create User
 **ACCESS LEVEL : 5**
 
 This route will help create a user with the specified access level and correspondingly generate their UIDs.
@@ -444,32 +422,20 @@ POST /admin/createUser
 JSON Response:
 
     {
-        message: "User successfully created",
-        request:
-        {
-                type: "POST",
-                url : process.env.SERVER + "/admin" + "/createAPIUser",
-                body:
-                {
-                    uid: <user-uid>,
-                    accessLevel: <access-level-specified>,
-                    user       :
-                    {
-                        name    : <created-user-name>,
-                        email   : <created-user-email>,
-                        password: <created-user-password>
-                    }
-                }
+        remarks: "User created successful",
+        size   : 1
+        request: {
+            type: "POST",
+            auth: <access-level-of-user>,
+            URL : "/admin/create",
+            body: <contents-of-request-body>
         },
-        response :
-        {
-            uid_created: <uid-generated-of-the-created-user>
-        }
+        response: <uid-generated-of-new-user>
     }
 
 ---
 
-### Delete a User
+### Delete User
 **ACCESS LEVEL : 5**
 
 This route will delete the user from the user database and revoke all their access.
@@ -481,22 +447,20 @@ DELETE /admin/delete
 JSON Response:
 
     {
-        message: "successfully deleted user",
-        request:
-        {
+        remarks: "User deleted successful",
+        size   : 0
+        request: {
             type: "DELETE",
-            url : process.env.SERVER + "/admin" + "/delete",
-            body:
-            {
-                auth_uid  : <user-suid>,
-                delete_uid: <uid-of-the-user-to-be-deleted>
-            }
-        }
+            auth: <access-level-of-user>,
+            URL : "/admin/delete",
+            body: <contents-of-request-body>
+        },
+        response: []
     }
 
 ---
 
-### Set custom claims
+### Set Custom Claims
 **ACCESS LEVEL : 5**
 
 This route can be used to promote or deomote the access level claim of any user based on their UID
@@ -508,33 +472,33 @@ PATCH /admin/claims
 JSON Response:
 
     {
-        message: "query successful",
-        request:
-        {
+        remarks: "Requested user custom claim set successful",
+        size   : 0
+        request: {
             type: "PATCH",
-            url : process.env.SERVER + "/admin" + "/claims",
-            body:
-            {
-                uid        : <access-token-uid>,
-                update_uid : <uid-of-user-whose-claims-are-to-be-updated>,
-                accessLevel: <updated-access-level>
-            }
-        }
+            auth: <access-level-of-user>,
+            URL : "/admin/claims",
+            body: <contents-of-request-body>
+        },
+        response: []
     }
 
 ---
 
 ## User Route
-This route can only be accessed by users who have been already authenticated. Meaning only those who have a vaild UID token, or have their email password key in out database can access these routes. Access level for this route is applicable to all from 1 to 5.
+
+1. These routes can only be accessed by those users, who have been authenticated and have their UID in the MBtS database.
+2. All verified users inspite of their access level can use these routes.
+3. CRUD operations however here can only be done on the specified user, hence cross-requests to another user are not allowed.
 
 ---
 
-### Get a user by email and password
+## Get User by Email and Password
 **ACCESS LEVEL : ALL VERIFIED**
 
-This route will give you all the information about your account with MBtS including your access level and UID tokens. Refer to this if you have forgotten or misplaced your token.
-
-__NOTE__ : This route will only give valid response if you already have an account in our database.
+1. This route can be used to get your UID by email and password if you misplaced it or forgotten it.
+2. It will also return other information such as your access level, etc.
+3. Note to not share your email or password with anyone as they can use it get your UID.
 ```
 GET /admin/user
     ?email={your-email-id-with-mbts}&password={corresponding-password}
@@ -542,30 +506,23 @@ GET /admin/user
 JSON Response:
 
     {
-            message: "query successful",
-            request:
-            {
-                type: "GET",
-                url : process.env.SERVER + "/admin" + "/user",
-                body:
-                {
-                    email   : <specified-email>,
-                    password: <specified-password>
-                }
-            },
-            response:
-            {
-                uid : <account-uid>,
-                info: <account-info>
-            }
+        remarks: "Query successful",
+        size   : 5
+        request: {
+            type: "GET",
+            auth: "Authorized user,
+            URL : "/user",
+            body: <contents-of-request-body>
+        },
+        response: <user-information-in-json>
     }
 
 ---
 
-### Update info
+## Update info
 **ACCESS LEVEL : ALL VERIFIED**
 
-This route can be used to update any of the following fields of the user account. They have to be sent as an array in the request body of the fields you want to update.
+This route can be used to update any of the following fields of the user account.
 
 _Fields : name, email, password_
 ```
@@ -576,25 +533,24 @@ PUT /user/update
 JSON Response:
 
     {
-        message: "query successful",
-        request:
-        {
+        remarks: "User information updated successful",
+        size   : 0
+        request: {
             type: "PUT",
-            url : process.env.SERVER + "/user" + "/update",
-            body:
-            {
-                uid       : <access-token-uid>,
-                updateData: <array-of-fields-to-be-updated>
-            }
-        }
+            auth: "Authorized user,
+            URL : "/user/update",
+            body: <contents-of-request-body>
+        },
+        response: []
     }
 
 ---
 
-### Get posts
+## Get All User Posts
 **ACCESS LEVEL : ALL VERIFIED**
 
-All verified users with access level above or equal to 1 can write a post. The ones, of whom they are the author can be accessed via here.
+1. Any verified user with access level above 2 can write and upload a review. Each review are mapped with their author by their UID.
+2. Use this route to get all the reviews written by a particular user.
 
 ```
 GET /user/posts
@@ -603,12 +559,13 @@ GET /user/posts
 JSON Response:
 
     {
-        remark : "Query successful",
-        size   : <number-of-posts-writen>,
+        remarks: "Query successful",
+        size   : <number-of-posts-writen>
         request: {
-            auth: <auth-level-of-user>
-            URL : process.env.SERVER + "/user" + +"/posts",
-            type: "GET"
+            type: "GET",
+            auth: "Authorized user,
+            URL : "/user/posts",
+            body: <contents-of-request-body>
         },
         response: <array-of-posts>
     }
