@@ -1,6 +1,6 @@
 # Database Schema for MBtS backend
 
-_Last updated : Friday, 25th June, 2021_
+_Last updated : Friday, 2nd July, 2021_
 
 The serverless database used here is document based. Poster images are stored onto Google Cloud storage whose URL links are mapped to complimentary review and stored int the Firebase Firestore.
 
@@ -58,7 +58,7 @@ There are 2 main tables - movie-reviews and short-film-reviews. Their structure 
 
 ## users Table
 
-__NOTE :__ This table can only be accessed by 
+__NOTE :__ This table can only be accessed by the backend server and not by any user irrespective of their access level.
 
 | Field       | Data type     | Description                                       |
 | ----------- | ------------- | ------------------------------------------------- |
