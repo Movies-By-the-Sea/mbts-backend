@@ -1,27 +1,39 @@
 const { db, auth } = require("../firebase");
-const utils = require("../models/utils");
+const utils        = require("../models/utils");
 require("dotenv").config({path:"../.env"});
 
 
 
+
+
+//=====================================================================
+//=====================================================================
+
 async function isAuthorized(req, res, next, authLevel) {
     await auth
-        .getUser(req.body.uid)
-        .then((userRecord) => {
-            if(userRecord.customClaims['accessLevel'] >= authLevel) {
-                return next();
-            } else {
-                return res
-                    .status(400)
-                    .json({
-                        error : {
-                            message : "Access level unauthorized"
-                        }
-                    });
-            }
-        })
+    .getUser(req.body.uid)
+    .then((userRecord) => {
+        if(userRecord.customClaims['accessLevel'] >= authLevel) {
+            return next();
+        } else {
+            return res
+                .status(400)
+                .json({
+                    error : {
+                        message : "Access level unauthorized"
+                    }
+                });
+        }
+    })
 };
 
+//=====================================================================
+//=====================================================================
+
+
+
+//=====================================================================
+//=====================================================================
 
 async function sharedAuthorize(uid, author_uid, level) {
     const authLevel = utils.getAccessLevel(uid);
@@ -30,6 +42,14 @@ async function sharedAuthorize(uid, author_uid, level) {
     }
     return false;
 }
+
+//=====================================================================
+//=====================================================================
+
+
+
+//=====================================================================
+//=====================================================================
 
 function isAuthenticated(req, res, next) {
     if((req.body.email !== undefined) && (req.body.password != undefined)) {
@@ -40,6 +60,12 @@ function isAuthenticated(req, res, next) {
     }
     return next();
 }
+
+//=====================================================================
+//=====================================================================
+
+
+
 
 
 module.exports = {

@@ -20,7 +20,7 @@ async function getAccessLevel(uid) {
 //=====================================================================
 
 async function getAllData(table) {
-    const data = [];
+    const data      = [];
     const reviewRef = db.collection(table);
     const snapshot  = await reviewRef.orderBy("timestamp").get();
     snapshot.forEach((doc) => data.push(doc.data()));

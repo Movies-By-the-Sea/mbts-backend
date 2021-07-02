@@ -13,7 +13,6 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
 //==========================================================================================
 
 async function getInfo(req, res) {
-
     const userDB   = db.collection("users");
     const snapshot = await userDB.where("email","==",req.body.email).get();
     if(snapshot.empty) {

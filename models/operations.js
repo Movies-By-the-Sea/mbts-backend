@@ -10,21 +10,21 @@ const utils         = require("./utils");
 //=====================================================================================
 
 async function updateIGStatus(req, res) {
-    const ref = db.collection(String(req.body.table)).doc(req.body.id);
-    const doc = await ref.get();
-    if (!doc.exists) {
-      return utils.formatResponse(req, res, 404, {message:'No such review with given ID found'});
-    } else {
-      await ref.update({
-        "instagram": req.body.instagram,
-      });
-      info = {
-        remark     : 'Review IG status updated successfully',
-        requestType: 'PATCH',
-        URL        : '/reviews' + '/updateIG'
-      }
-      return utils.formatResponse(req, res, 200, info);
+  const ref = db.collection(String(req.body.table)).doc(req.body.id);
+  const doc = await ref.get();
+  if (!doc.exists) {
+    return utils.formatResponse(req, res, 404, {message:'No such review with given ID found'});
+  } else {
+    await ref.update({
+      "instagram": req.body.instagram,
+    });
+    info = {
+      remark     : 'Review IG status updated successfully',
+      requestType: 'PATCH',
+      URL        : '/reviews' + '/updateIG'
     }
+    return utils.formatResponse(req, res, 200, info);
+  }
 }
 
 //=====================================================================================
