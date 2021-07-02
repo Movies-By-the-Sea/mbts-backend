@@ -588,3 +588,27 @@ JSON Response:
             }
         }
     }
+
+---
+
+### Get posts
+**ACCESS LEVEL : ALL VERIFIED**
+
+All verified users with access level above or equal to 1 can write a post. The ones, of whom they are the author can be accessed via here.
+
+```
+GET /user/posts
+    ?table={table-name-of-DB}&uid={access-token-uid}
+```
+JSON Response:
+
+    {
+        remark : "Query successful",
+        size   : <number-of-posts-writen>,
+        request: {
+            auth: <auth-level-of-user>
+            URL : process.env.SERVER + "/user" + +"/posts",
+            type: "GET"
+        },
+        response: <array-of-posts>
+    }

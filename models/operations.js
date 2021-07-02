@@ -1,5 +1,6 @@
 const { db, admin } = require("../firebase");
-const utils = require("./utils");
+const auth          = require("../Auth/authorize");
+const utils         = require("./utils");
 
 
 
@@ -37,11 +38,13 @@ async function updateIGStatus(req, res) {
 //=====================================================================================
 
 async function updateReview(req, res) {
-    const ref = db.collection(String(req.body.table)).doc(req.body.id);
-    const doc = await ref.get();
-    if (!doc.exists) {
-      return utils.formatResponse(req, res, 404, {message:'No such review with given ID found'});
-    } else {
+  const ref = db.collection(req.body.table).doc(req.body.id);
+  const doc = await ref.get();
+  if (!doc.exists) {
+    return utils.formatResponse(req, res, 404, {message:'No such review with given ID found'});
+  } else {
+    const bool = await auth.sharedAuthorize(req.body.uid, doc.data().author_uid, 3);
+    if(bool) {
       await ref.update(req.body.update_data);
       info = {
         remark     : 'Review updated successfully',
@@ -49,7 +52,10 @@ async function updateReview(req, res) {
         URL        : '/reviews' + '/update'
       }
       return utils.formatResponse(req, res, 200, info);
+    } else {
+      return utils.formatResponse(req, res, 400, {message:'Do not have permission to update another user posts'});
     }
+  }
 }
 
 //=====================================================================================
@@ -115,6 +121,8 @@ async function uploadReview(req, res) {
 //=====================================================================================
 
 async function deleteReview(req, res) {
+  const bool = await auth.sharedAuthorize(req.body.uid, doc.data().author_uid, 3);
+  if(bool) {
     await db.collection(req.body.table).doc(req.body.id).delete();
     info = {
       remark     : 'Review deleted successfully',
@@ -122,6 +130,9 @@ async function deleteReview(req, res) {
       URL        : '/reviews' + '/delete'
     }
     return utils.formatResponse(req, res, 200, info);
+  } else {
+    return utils.formatResponse(req, res, 400, {message:'Do not have permission to update another user posts'});
+  }
 }
 
 //=====================================================================================

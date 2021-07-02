@@ -259,5 +259,6 @@ module.exports = {
     getDataByGenre        : getDataByGenre,
     getDataByTableID      : getDataByTableID,
     formatResponse        : formatResponse,
-    getQueryDataWithFields: getQueryDataWithFields
+    getQueryDataWithFields: getQueryDataWithFields,
+    getAccessLevel        : getAccessLevel
 }

@@ -1,4 +1,5 @@
 const { db, auth } = require("../firebase");
+const utils = require("../models/utils");
 require("dotenv").config({path:"../.env"});
 
 
@@ -13,12 +14,25 @@ async function isAuthorized(req, res, next, authLevel) {
                 return res
                     .status(400)
                     .json({
-                        message : "Access level unauthorized"
+                        error : {
+                            message : "Access level unauthorized"
+                        }
                     });
             }
         })
 };
 
 
+async function sharedAuthorize(uid, author_uid, level) {
+    const authLevel = utils.getAccessLevel(uid);
+    if((author_uid === uid) || authLevel >= level) {
+        return true;
+    }
+    return false;
+}
 
-module.exports = isAuthorized;
+
+module.exports = {
+    isAuthorized   : isAuthorized,
+    sharedAuthorize: sharedAuthorize
+};
