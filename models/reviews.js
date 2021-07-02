@@ -12,7 +12,6 @@ async function getAllReviews(req, res) {
   await utils.maskDataByAuth(req).then((result) => {
     info = {
       remark     : "Reviews ordered by timestamp",
-      size       : result.data.length,
       auth       : result.type,
       URL        : '/reviews',
       response   : result.data

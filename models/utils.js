@@ -10,7 +10,7 @@ require("dotenv").config();
 
 async function maskDataByAuth(req, getUnique=false) {
     const data = getUnique ? await database.getDataByTableID(req.body.table, req.body.id) : await database.getAllData(req.body.table);
-    if(data[0] === undefined) {
+    if((data[0] === undefined) && getUnique) {
         return {
             data: "No such review with given ID found",
             type: "Invalid request"
@@ -104,7 +104,7 @@ async function formatResponse(req, res, status, resp) {
     }
     return res.status(status).json({
         remark : resp.remark || "Query successful",
-        size   : resp.size || 0,
+        size   : resp.response.length || 0,
         request: {
             type: resp.requestType || 'GET',
             auth: resp.auth || mapAccessLevel(await database.getAccessLevel(req.body.uid)),

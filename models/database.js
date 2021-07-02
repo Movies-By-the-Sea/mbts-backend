@@ -23,10 +23,11 @@ async function getAllData(table) {
     const data      = [];
     const reviewRef = db.collection(table);
     const snapshot  = await reviewRef.orderBy("timestamp").get();
-    snapshot.forEach((doc) => data.push({
-        ID  : doc.id,
-        data: doc.data()
-    }));
+    snapshot.forEach((doc) =>  {
+        let temp = doc.data();
+        temp.id = doc.id;
+        data.push(temp)   
+    });
     return data;
 }
 
