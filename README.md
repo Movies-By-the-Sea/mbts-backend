@@ -1,6 +1,6 @@
 # MBtS Backend API
 
-_Last updated : Friday, 25th June, 2021_
+_Last updated : Friday, 2nd July, 2021_
 
 RESTful API build to serve the frontend website as well as the control and analytics panel for Movie By the Sea platform.
 
@@ -10,11 +10,11 @@ RESTful API build to serve the frontend website as well as the control and analy
 
 Refer to endpoints.md and database.md for more information about the API routes.
 
-__Language__           : _Javascript_</br> 
-__Tech Stack__         : _NodeJs, ExpressJS_</br>
-__Databse type__       : _Firebase Firestore (document-based)_</br>
-__Cloud Storage type__ : _Google Cloud Storage_</br>
-__Hosting server__     : _Heroku_</br>
+__Language__           : _Javascript_                          </br> 
+__Tech Stack__         : _NodeJs, ExpressJS_                   </br>
+__Databse type__       : _Firebase Firestore (document-based)_ </br>
+__Cloud Storage type__ : _Google Cloud Storage_                </br>
+__Hosting server__     : _Heroku_                              </br>
 __External API__       : _Facebook Graph API_
 
 ---
@@ -55,51 +55,20 @@ $ npm run dev
 
 ## API Usage
 
-Majority of the routes can only be accessed by passing in a UID token to the request body. However, 2 of the routes have been made public and thus can be accessed without passing any tokens. Although the quantity of response would be less than a request with the UID token, it can be used freely. Their details are as below:
+Majority of the routes can only be accessed by passing in a UID token to the request body. However, 2 of the routes have been made public and thus can be accessed without passing any tokens. Although certain information would be masked accordingly, then still can be used freely. Details about them are given below.
 
-### Geting all reviews
-This will return all the reviews present in the MBtS database along with their meta data such as genre, leads, director, year, etc. There are two tables user cn access - **movie-reviews** and **short-film-reviews**. Pass them accordingly in the request body.
-```
-GET /reviews
-    ?table={review-table-specified}
-```
-JSON response:
+### Get all reviews
 
-    {
-        message: "query successful",
-        size   : <length-of-the-returned-data>,
-        request: 
-        {
-            type: "GET",
-            url : process.env.SERVER + "/reviews",
-            body: 
-            {
-                table  : <specified-table>,
-                orderBy: "timestamp"
-            }
-        },
-        response: <response-data>
-    }
+1. This will return all the movie reviews present in the MBtS database along with each movie's meta data such as director, leads, year of release, etc. 
+2. Each review have an associated ID with them which could be used in the route given below.
+3. Read more about this in [endpoints.md](endpoints.md) file.
 
-### Getting review by ID
-The review ID can be found while calling the get-all-reviews route. That can be passed here to get the review of a particular movie/short-film by ID
-```
-GET /reviews/get
-    ?table={review-table-specified}&id={review-id}
-```
-JSON Response:
+### Get review by ID
 
-    {
-        message: "Query successful",
-        request: 
-        {
-            type: "GET",
-            url : process.env.SERVER + "/reviews" + "/get",
-            body: 
-            {
-              table: req.body.table,
-              id   : req.body.id
-            }
-        },
-        response: doc.data(),
-    }
+1. This will return all the movie/short-film information which is passed by its correspoding ID.
+2. Read more about this in [endpoints.md](endpoints.md) file.
+
+## Future Update
+
+1. Create public route to list movies/short-films by genre.
+2. Create more complex routes to sustain MBtS frontend.
