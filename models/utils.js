@@ -114,7 +114,10 @@ async function formatResponse(req, res, status, resp) {
     }
     if(resp.response === undefined) {
         info.size = resp.size || 0
+    } else {
+        info.size = resp.response.length
     }
+    
     return res.status(status).json(info)
 }
 
