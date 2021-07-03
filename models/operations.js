@@ -19,6 +19,7 @@ async function updateIGStatus(req, res) {
       "instagram": req.body.instagram,
     });
     info = {
+      size       : 0,
       remark     : 'Review IG status updated successfully',
       requestType: 'PATCH',
       URL        : '/reviews' + '/updateIG'
@@ -47,6 +48,7 @@ async function updateReview(req, res) {
     if(bool) {
       await ref.update(req.body.update_data);
       info = {
+        size       : 0,
         remark     : 'Review updated successfully',
         requestType: 'PUT',
         URL        : '/reviews' + '/update'
@@ -105,6 +107,7 @@ async function uploadReview(req, res) {
     data.author_uid = req.body.uid
     const doc = await db.collection(req.body.table).add(data);
     info = {
+      size       : 1,
       remark     : 'Review uploaded successfully',
       requestType: 'POST',
       URL        : '/reviews' + '/upload',
@@ -128,6 +131,7 @@ async function deleteReview(req, res) {
   if(bool) {
     await db.collection(req.body.table).doc(req.body.id).delete();
     info = {
+      size       : 0,
       remark     : 'Review deleted successfully',
       requestType: 'DELETE',
       URL        : '/reviews' + '/delete'
