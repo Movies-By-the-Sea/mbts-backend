@@ -101,10 +101,9 @@ async function formatResponse(req, res, status, resp) {
         return res.status(status).json({
             error: { message: resp.message }
         });
-    }
-    return res.status(status).json({
+    };
+    let info = {
         remark : resp.remark || "Query successful",
-        size   : resp.response.length || resp.size || 0,
         request: {
             type: resp.requestType || 'GET',
             auth: resp.auth || mapAccessLevel(await database.getAccessLevel(req.body.uid)),
@@ -112,7 +111,11 @@ async function formatResponse(req, res, status, resp) {
             body: req.body || []
         },
         response: resp.response
-    })
+    }
+    if(resp.response === undefined) {
+        info.size = resp.size || 0
+    }
+    return res.status(status).json(info)
 }
 
 //=====================================================================
