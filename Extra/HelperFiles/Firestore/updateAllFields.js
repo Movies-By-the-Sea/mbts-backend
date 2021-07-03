@@ -17,11 +17,11 @@ admin.initializeApp({
   credential : admin.credential.cert(serviceAccount)
 });
 
-admin.firestore().collection("movie-reviews").get().then(function(querySnapshot) {
+admin.firestore().collection("short-film-reviews").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-        console.log(doc);
+        console.log(doc.id);
         doc.ref.update({
-            capital: true
+            author: 'writer@mbts.com',
         });
     });
 });
