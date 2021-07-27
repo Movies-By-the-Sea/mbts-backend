@@ -99,7 +99,7 @@ JSON Response:
 2. Using public route will return all general info about each review. Below 3 access level will get additional image specifications and 3 above will get that plus post meta data information.
 ```
 GET /reviews
-    ?table={review-table-specified}
+    ?table={review-table-specified}&id={review-requested-id}
     &uid={access-token-uid-(optional)}
 ```
 JSON Response:
@@ -141,6 +141,7 @@ JSON Response:
         },
         response: 
         {
+            Total     : <array[total-num-reviews]>,
             Instagram : <array[id, num, size]>,
             Netflix   : <array[id, num, size]>,
             Prime     : <array[id, num, size]>,
