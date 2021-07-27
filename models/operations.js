@@ -71,37 +71,6 @@ async function updateReview(req, res) {
 //=====================================================================================
 
 async function uploadReview(req, res) {
-    // const data = {
-    //     name       : req.body.name,
-    //     director   : req.body.director,
-    //     genre      : req.body.genre,
-    //     instagram  : req.body.instagram,
-    //     poster_name: req.body.poster_name,
-    //     poster_link: req.body.poster_link,
-    //     timestamp  : req.body.timestamp,
-    //     author     : req.body.author,
-    //     author_uid : req.body.uid
-    // };
-    // const table = req.body.table;
-    // if (table == "movie-reviews") {
-    //     data.review     = req.body.review;
-    //     data.year       = req.body.year;
-    //     data.actor      = req.body.actor;
-    //     data.netflix    = req.body.netflix;
-    //     data.amazon     = req.body.amazon;
-    //     data.foreign    = req.body.foreign;
-    //     data.must_watch = req.body.must_watch;
-    //     data.acting     = req.body.acting;
-    //     data.story      = req.body.story;
-    //     data.execution  = req.body.execution;
-    //     data.profundity = req.body.profundity;
-    //     data.overall    = req.body.overall;
-    //     data.trailer    = req.body.trailer;
-    // } else if (table == "short-film-reviews") {
-    //     data.link        = req.body.link;
-    //     data.description = req.body.description;
-    //     data.duration    = req.body.duration;
-    // }
     let data        = req.body.update_data;
     data.author     = req.body.author;
     data.author_uid = req.body.uid
@@ -127,6 +96,8 @@ async function uploadReview(req, res) {
 //=====================================================================================
 
 async function deleteReview(req, res) {
+  const ref = db.collection(req.body.table).doc(req.body.id);
+  const doc = await ref.get();
   const bool = await auth.sharedAuthorize(req.body.uid, doc.data().author_uid, 3);
   if(bool) {
     await db.collection(req.body.table).doc(req.body.id).delete();
