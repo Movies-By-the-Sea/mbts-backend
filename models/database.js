@@ -76,6 +76,23 @@ async function getQueryData(table, query, allInfo=false) {
 
 
 
+
+
+//=====================================================================
+//=====================================================================
+
+async function getDataSize(table) {
+    const size = db.collection(table).get();
+    return (await size).size;
+}
+
+//=====================================================================
+//=====================================================================
+
+
+
+
+
 //=====================================================================
 //=====================================================================
 
@@ -135,5 +152,6 @@ module.exports = {
     getDataByTableID      : getDataByTableID,
     getQueryData          : getQueryData,
     getQueryDataWithFields: getQueryDataWithFields,
-    getDataByGenre        : getDataByGenre
+    getDataByGenre        : getDataByGenre,
+    getDataSize           : getDataSize
 }

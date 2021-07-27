@@ -55,6 +55,7 @@ async function getGeneralInfo(req, res) {
   info = {
     URL        : '/reviews' + '/general',
     response   : {
+      Total     : await db.getDataSize(req.body.table),
       Instagram : await db.getQueryData(req.body.table, "instagram"),
       Netflix   : await db.getQueryData(req.body.table, "netflix"),
       Prime     : await db.getQueryData(req.body.table, "prime"),
