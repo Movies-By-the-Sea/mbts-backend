@@ -53,3 +53,6 @@ def get_romance_films(): return Model.get_romance_films(auth_request())
 
 @movie_url.route("/action")
 def get_action_films(): return Model.get_action_films(auth_request())
+
+@movie_url.route("/dark")
+def get_dark_films(): return Model.get_dark_films(auth_request())
