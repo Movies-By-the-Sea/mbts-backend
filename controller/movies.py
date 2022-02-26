@@ -33,9 +33,6 @@ def get_meta_films(): return Model.get_meta_films(auth_request())
 @movie_url.route("/horror")
 def get_horror_films(): return Model.get_horror_films(auth_request())
 
-@movie_url.route("/indie")
-def get_indie_films(): return Model.get_indie_films(auth_request())
-
 @movie_url.route("/drama")
 def get_drama_films(): return Model.get_drama_films(auth_request())
 

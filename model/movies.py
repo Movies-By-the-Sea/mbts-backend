@@ -91,15 +91,6 @@ def get_dark_films(auth):
     }
     return API.call(method="POST", query=query, auth=auth)
 
-def get_indie_films(auth): 
-    query = {
-        "property"    : "Genre",
-        "multi_select": {
-            "contains": "Indie"
-        }
-    }
-    return API.call(method="POST", query=query, auth=auth)
-
 def get_drama_films(auth): 
     query = {"or":[{
         "property"    : "Genre",
@@ -110,6 +101,11 @@ def get_drama_films(auth):
         "property"    : "Genre",
         "multi_select": {
             "contains": "Social"
+        }
+    },{
+        "property"    : "Genre",
+        "multi_select": {
+            "contains": "Indie"
         }
     }]}
     return API.call(method="POST", query=query, auth=auth)
