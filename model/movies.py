@@ -174,3 +174,12 @@ def get_action_films(auth):
         }
     }]}
     return API.call(method="POST", query=query, auth=auth)
+
+def get_top_30_films(auth):
+    payload = {
+        "sorts" :[{
+            "property" : "Overall",
+            "direction": "descending"
+        }]
+    }
+    return API.custom_call(method="POST", payload=payload, auth=auth, size=30)

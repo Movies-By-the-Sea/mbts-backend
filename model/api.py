@@ -6,10 +6,11 @@ def call(method, query, auth):
     result = paginate_call(method, query, auth)
     return structure_response(res, result, auth)
 
-def custom_call(method, payload, auth):
+def custom_call(method, payload, auth, size=None):
     url  = model.base_url + model.database_id + '/query'
     res  = requests.request(method=method, json=payload, url=url, headers=model.headers)
     data = filter_data(res,auth)
+    if size!=None: data = data[:size]
     return structure_response(res, data, auth)
 
 def structure_response(res, result, auth):
