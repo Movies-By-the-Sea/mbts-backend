@@ -183,3 +183,16 @@ def get_top_30_films(auth):
         }]
     }
     return API.custom_call(method="POST", payload=payload, auth=auth, size=30)
+
+def get_movie_by_name(auth, name):
+    n1 = name.upper()                  # HEY THERE
+    n2 = n1.split(" ")                 # ['HEY','THERE]
+    n3 = [i.capitalize() for i in n2]  # ['Hey', 'There']
+    n4 = ' '.join(n3)                  # 'Hey There'
+    query = {
+        "property":"name",
+        "rich_text":{
+            "contains":n4
+        }
+    }
+    return API.call(method="POST", query=query, auth=auth)
