@@ -189,10 +189,13 @@ def get_movie_by_name(auth, name):
     n2 = n1.split(" ")                 # ['HEY','THERE]
     n3 = [i.capitalize() for i in n2]  # ['Hey', 'There']
     n4 = ' '.join(n3)                  # 'Hey There'
-    query = {
-        "property":"name",
-        "rich_text":{
-            "contains":n4
+    payload = {
+        "page_size":1,
+        "filter": {
+            "property":"Name",
+            "rich_text":{
+                "contains":n4
+            }
         }
     }
-    return API.call(method="POST", query=query, auth=auth)
+    return API.custom_call(method="POST", payload=payload, auth=auth)
