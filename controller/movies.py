@@ -9,6 +9,9 @@ def test(): return '<h1>Server Running</h1>'
 @movie_url.route("/latest")
 def get_latest_reviewed(): return Model.get_latest_reviewed(auth_request())
 
+@movie_url.route("/motd")
+def get_motd(): return Model.get_motd(auth_request())
+
 @movie_url.route("/must-watch")
 def get_must_watch(): return Model.get_boolean_values(auth_request(), "Must Watch")
 

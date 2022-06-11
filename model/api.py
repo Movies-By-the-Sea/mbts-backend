@@ -56,7 +56,7 @@ def paginate_call(method, query, auth):
         res       = call_api(query, method, data['next_cursor'])
         data      = res.json()
         response += filter_data(res, auth)
-    return response
+    return res, response
             
 def filter_data(res, auth):
     result = []
