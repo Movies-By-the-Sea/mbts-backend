@@ -3,7 +3,7 @@ import requests
 
 def call(method, query, auth):
     res    = call_api(query, method)
-    result = paginate_call(method, query, auth)
+    status, result = paginate_call(method, query, auth)
     return structure_response(res, result, auth)
 
 def custom_call(method, payload, auth, size=None):
