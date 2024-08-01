@@ -19,9 +19,9 @@ def get_latest_reviewed(auth):
 def get_motd(auth):
     res, result = API.paginate_call(method="POST", query={"or":[]}, auth=auth)
     today = int(datetime.date.today().strftime("%d"))
-    old_range = 30 - 1              # number of days in a month
+    old_range = 31                  # number of days in a month
     new_range = len(result) - 1     # number of reviews
-    index = (((today - 1) * new_range) / old_range) + 1 # extrapolating the ranges
+    index = (((today - 1) * new_range) / old_range)  # extrapolating the ranges
     return API.structure_response(res=res, result=[result[int(index)]], auth=auth)
 
 
